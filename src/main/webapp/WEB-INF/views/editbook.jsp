@@ -32,7 +32,9 @@
         <form:form method="post" commandName="entity" cssClass="centred">
             <form:input path="id" value="${entity.id}" hidden="true"/>
             <p><form:input path="title" type="text" value="${entity.title}" maxlength="64" placeholder="Название книги" required="true" pattern=".*\S.*" title="Введите название книги"/></p>
+            <p><form:errors path="title" cssClass="message" delimiter=", "/></p>
             <p><form:input path="pubYear" type="text" value="${entity.pubYear}" placeholder="Год публикации" pattern="-?\d{4}" title="Введите год в формате ГГГГ" required="true"/></p>
+            <p><form:errors path="pubYear" cssClass="message" delimiter=", "/></p>
             <p><select class="listMulticatch" size="1" name="genereId">
                 <option disabled>Жанр</option>
                 <c:forEach var="opt" items="${sourceListGenre}">

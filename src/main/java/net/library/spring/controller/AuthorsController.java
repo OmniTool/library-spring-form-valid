@@ -18,7 +18,7 @@ public class AuthorsController {
 
     @Autowired private ServiceAuthor serviceAuthor;
 
-    @RequestMapping("/authors")
+    @RequestMapping("/author/list")
     public String listAuthors(Map<String, Object> map) {
         map.put("list", serviceAuthor.getAll());
         return "authorlist";

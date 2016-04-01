@@ -7,11 +7,11 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @Transactional
-public class ServiceBase<T extends EntityBase> {
+public class ServiceBase<T extends EntityBase, D extends DAO> {
 
-    private DAO dao;
+    private D dao;
 
-    public ServiceBase(DAO dao) {
+    public ServiceBase(D dao) {
         this.dao = dao;
     }
 
@@ -38,5 +38,9 @@ public class ServiceBase<T extends EntityBase> {
 
     public List<T> searchEntityByName(T entity) {
         return dao.searchEntityByName(entity);
+    }
+
+    public D getDao() {
+        return dao;
     }
 }

@@ -9,12 +9,13 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Transactional
-public class ServiceAuthorImpl extends ServiceBase<Author> implements ServiceAuthor {
+public class ServiceAuthorImpl extends ServiceBase<Author, DAOAuthor> implements ServiceAuthor {
 
-    protected DAOAuthor dao;
+//    protected DAOAuthor dao;
+
     @Autowired
     public ServiceAuthorImpl(DAOAuthor dao) {
         super(dao);
-        this.dao = dao;
+//        this.dao = dao;
     }
 }

@@ -33,19 +33,19 @@ public class BooksControllerCRUD {
         return "addbook";
     }
     @RequestMapping(value = "/addbook", method = RequestMethod.POST)
-    public String createBook(@ModelAttribute("entity") @Valid Book entity,
-                             @RequestParam("genereId") int genereId,
+    public String createBook(@RequestParam("genereId") int genereId,
                              @RequestParam(value="listAuthor", required=false) List<Integer> listAuthor,
+                            @ModelAttribute("entity") @Valid Book entity,
                              BindingResult result, Map<String, Object> map) {
-        if (result.hasErrors()) {
-            initParameters(map, entity);
-            return "addbook";
-        }
         Genre genre = serviceGenre.getEntityById(genereId);
         entity.setGenre(genre);
         entity.setAuthorsList(new ArrayList<BookAuthor>());
         if (listAuthor != null) for (int id : listAuthor) {
             entity.getAuthorsList().add(new BookAuthor(entity, serviceAuthor.getEntityById(id)));
+        }
+        if (result.hasErrors()) {
+            initParameters(map, entity);
+            return "addbook";
         }
         if (validator.exists(entity)) {
             map.put("message", true);
@@ -66,14 +66,10 @@ public class BooksControllerCRUD {
         return "editbook";
     }
     @RequestMapping(value = "/editbook/{bookId}", method = RequestMethod.POST)
-    public String updateBook(@ModelAttribute("entity") @Valid Book entity,
-                             @RequestParam("genereId") int genereId,
+    public String updateBook(@RequestParam("genereId") int genereId,
                              @RequestParam(value="listAuthor", required=false) List<Integer> listAuthor,
+                             @ModelAttribute("entity") @Valid Book entity,
                             BindingResult result, Map<String, Object> map) {
-        if (result.hasErrors()) {
-            initParameters(map, entity);
-            return "editbook";
-        }
         boolean exists;
         Book oldEntity = serviceBook.getEntityById(entity.getId());
         validator.trim(oldEntity);
@@ -88,6 +84,10 @@ public class BooksControllerCRUD {
             exists = false;
         } else {
             exists = validator.exists(entity);
+        }
+        if (result.hasErrors()) {
+            initParameters(map, entity);
+            return "editbook";
         }
         if (exists) {
             map.put("message", true);

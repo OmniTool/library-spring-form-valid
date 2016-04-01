@@ -32,9 +32,13 @@
         <form:form method="post" commandName="entity" cssClass="centred">
             <form:input path="id" value="${entity.id}" hidden="true"/>
             <p><form:input path="secondName" type="text" value="${entity.secondName}" maxlength="64" placeholder="Фамилия" required="true" pattern=".*\S.*" title="Введите фамилию"/></p>
+            <p><form:errors path="secondName" cssClass="message" delimiter=", "/></p>
             <p><form:input path="firstName" type="text" value="${entity.firstName}" maxlength="64" placeholder="Имя" required="true" pattern=".*\S.*" title="Введите имя"/></p>
+            <p><form:errors path="firstName" cssClass="message" delimiter=", "/></p>
             <p><form:input path="middleName" type="text" value="${entity.middleName}" maxlength="64" placeholder="Отчество" pattern=".*\S.*" title="Введите отчество"/></p>
+            <p><form:errors path="middleName" cssClass="message" delimiter=", "/></p>
             <p><form:input path="birthYear" type="text" value="${entity.birthYear}" placeholder="Год рождения" pattern="-?\d{4}" title="Введите год в формате ГГГГ" required="true"/></p>
+            <p><form:errors path="birthYear" cssClass="message" delimiter=", "/></p>
             <p><form:textarea path="biography" placeholder="Биография" value="${entity.biography}"/></p>
             <p><form:errors path="biography" cssClass="message" delimiter=", "/></p>
             <p><select id="my-select" size="5" name="listBook" class="listMulticatch" multiple>

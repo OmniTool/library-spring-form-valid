@@ -9,13 +9,13 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Transactional
-public class ServiceGenreImpl extends ServiceBase<Genre> implements ServiceGenre {
+public class ServiceGenreImpl extends ServiceBase<Genre, DAOGenre> implements ServiceGenre {
 
-    protected DAOGenre dao;
+//    protected DAOGenre dao;
 
     @Autowired
     public ServiceGenreImpl(DAOGenre dao) {
         super(dao);
-        this.dao = dao;
+//        this.dao = dao;
     }
 }

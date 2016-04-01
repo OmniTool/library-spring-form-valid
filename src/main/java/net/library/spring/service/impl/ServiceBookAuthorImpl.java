@@ -13,26 +13,26 @@ import java.util.List;
 
 @Service
 @Transactional
-public class ServiceBookAuthorImpl extends ServiceBase<BookAuthor> implements ServiceBookAuthor {
+public class ServiceBookAuthorImpl extends ServiceBase<BookAuthor, DAOBookAuthor> implements ServiceBookAuthor {
 
-    protected DAOBookAuthor dao;
+//    protected DAOBookAuthor dao;
     @Autowired
     public ServiceBookAuthorImpl(DAOBookAuthor dao) {
         super(dao);
-        this.dao = dao;
+//        this.dao = dao;
     }
 
     public List<Book> searchBooksByAuthor(Author entity) {
         List<Book> books = new ArrayList<>();
-        DAOBookAuthorImpl specialDAO = (DAOBookAuthorImpl) dao;
-        for (Book e : specialDAO.searchBooksByAuthor(entity))
+//        DAOBookAuthorImpl specialDAO = (DAOBookAuthorImpl) getDao();
+        for (Book e : getDao().searchBooksByAuthor(entity))
             books.add(e);
         return books;
     }
     public List<Author> searchAuthorsByBook(Book entity) {
         List<Author> books = new ArrayList<>();
-        DAOBookAuthorImpl specialDAO = (DAOBookAuthorImpl) dao;
-        for (Author e : specialDAO.searchAuthorsByBook(entity))
+//        DAOBookAuthorImpl specialDAO = (DAOBookAuthorImpl) getDao();
+        for (Author e : getDao().searchAuthorsByBook(entity))
             books.add(e);
         return books;
     }
