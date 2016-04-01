@@ -30,6 +30,7 @@
                 <p><form:input path="title" type="text" value="${entity.title}" maxlength="64" placeholder="Название жанра" required="true" pattern=".*\S.*" title="Введите название жанра"/></p>
                 <p><form:errors path="title" cssClass="message" delimiter=", "/></p>
                 <p><form:textarea path="description" placeholder="Описание жанра" value="${entity.description}"/></p>
+                <p><form:errors path="description" cssClass="message" delimiter=", "/></p>
                 <button formaction="addgenre">Добавить</button>
         </form:form>
     </div>

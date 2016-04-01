@@ -1,6 +1,7 @@
 package net.library.spring.entities;
 
 import javax.persistence.*;
+import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,6 +11,7 @@ public class Book extends EntityBase {
 
     @Basic
     @Column(name = "title")
+    @Size(min=1, max=64, message="Название: от 1 до 64 символов")
     private String title;
     @Basic
     @Column(name = "pub_year")

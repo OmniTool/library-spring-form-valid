@@ -26,17 +26,12 @@
     </p>
     <p>
     <div class="block">
-        <%--<form method="POST" class="centred">--%>
-            <%--<p><input value="${entity.id}" hidden name="id"></p>--%>
-            <%--<p><input type="text" name="title" value="${entity.title}" maxlength="64" placeholder="Название жанра" required pattern=".*\S.*" title="Введите название жанра"></p>--%>
-            <%--<p><textarea name="description" placeholder="Описание жанра">${entity.description}</textarea></p>--%>
-            <%--<p><button formaction="editgenre">Изменить</button></p>--%>
-        <%--</form>--%>
     <form:form method="post" commandName="entity" cssClass="centred">
         <form:input path="id" value="${entity.id}" hidden="true"/>
         <p><form:input path="title" type="text" value="${entity.title}" maxlength="64" placeholder="Название жанра" required="true" pattern=".*\S.*" title="Введите название жанра"/></p>
         <p><form:errors path="title" cssClass="message" delimiter=", "/></p>
         <p><form:textarea path="description" placeholder="Описание жанра" value="${entity.description}"/></p>
+        <p><form:errors path="description" cssClass="message" delimiter=", "/></p>
         <button formaction="editgenre">Изменить</button>
     </form:form>
     </div>

@@ -28,43 +28,44 @@
         </c:if>
     </p>
     <p>
-        <div class="block">
-            <form method="POST" class="centred">
-                <p><input type="text" value="${entity.secondName}" maxlength="64" placeholder="Фамилия" name="secondName" required pattern=".*\S.*" title="Введите фамилию"></p>
-                <p><input type="text" value="${entity.firstName}" maxlength="64" placeholder="Имя" name="firstName" required pattern=".*\S.*" title="Введите имя"></p>
-                <p><input type="text" value="${entity.middleName}" maxlength="64" placeholder="Отчество" name="middleName" pattern=".*\S.*" title="Введите отчество"></p>
-                <p><input type="text" value="${entity.birthYear}" placeholder="Год рождения" name="birthYear" pattern="-?\d{4}" title="Введите год в формате ГГГГ" required></p>
-                <p><textarea name="biography" placeholder="Биография">${entity.biography}</textarea></p>
+    <div class="block">
+        <form:form method="post" commandName="entity" cssClass="centred">
+            <p><form:input path="secondName" type="text" value="${entity.secondName}" maxlength="64" placeholder="Фамилия" required="true" pattern=".*\S.*" title="Введите фамилию"/></p>
+            <p><form:input path="firstName" type="text" value="${entity.firstName}" maxlength="64" placeholder="Имя" required="true" pattern=".*\S.*" title="Введите имя"/></p>
+            <p><form:input path="middleName" type="text" value="${entity.middleName}" maxlength="64" placeholder="Отчество" pattern=".*\S.*" title="Введите отчество"/></p>
+            <p><form:input path="birthYear" type="text" value="${entity.birthYear}" placeholder="Год рождения" pattern="-?\d{4}" title="Введите год в формате ГГГГ" required="true"/></p>
+            <p><form:textarea path="biography" placeholder="Биография" value="${entity.biography}"/></p>
+            <p><form:errors path="biography" cssClass="message" delimiter=", "/></p>
                 <p><select id="my-select" size="5" name="listBook" class="listMulticatch" multiple>
-                    <option disabled>Выберете книги</option>
-                    <c:forEach var="opt" items="${sourceListBook}">
-                        <p>
-                            <c:set var="optionId" scope="session" value="${opt.id}"/>
-                            <c:set var="isSelected" scope="session" value='false'/>
+                <option disabled>Выберете книги</option>
+                <c:forEach var="opt" items="${sourceListBook}">
+                <p>
+                <c:set var="optionId" scope="session" value="${opt.id}"/>
+                <c:set var="isSelected" scope="session" value='false'/>
 
-                            <c:forEach var="selected" items="${currentListBook}" >
-                                <c:set var="targetId" scope="session" value="${selected.id}"/>
-                                <c:choose>
-                                    <c:when test="${optionId==targetId}">
-                                        <c:set var="isSelected" scope="session" value='true'/>
-                                    </c:when>
-                                </c:choose>
-                            </c:forEach>
+                <c:forEach var="selected" items="${currentListBook}" >
+                <c:set var="targetId" scope="session" value="${selected.id}"/>
+                <c:choose>
+                <c:when test="${optionId==targetId}">
+                <c:set var="isSelected" scope="session" value='true'/>
+                </c:when>
+                </c:choose>
+                </c:forEach>
 
-                            <c:choose>
-                                <c:when test="${isSelected=='true'}">
-                                    <option selected value="${opt.id}">${opt.title}</option>
-                                </c:when>
-                                <c:otherwise>
-                                    <option value="${opt.id}">${opt.title}</option>
-                                </c:otherwise>
-                            </c:choose>
-                        </p>
-                    </c:forEach>
+                <c:choose>
+                <c:when test="${isSelected=='true'}">
+                <option selected value="${opt.id}">${opt.title}</option>
+                </c:when>
+                <c:otherwise>
+                <option value="${opt.id}">${opt.title}</option>
+                </c:otherwise>
+                </c:choose>
+                </p>
+                </c:forEach>
                 </select></p>
-                <p><button formaction="addauthor">Добавить</button></p>
-            </form>
-        </div>
+            <button formaction="addauthor">Добавить</button>
+        </form:form>
+    </div>
     </p>
 </div>
 <script>

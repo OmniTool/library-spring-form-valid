@@ -29,17 +29,16 @@
     </p>
     <p>
     <div class="block">
-        <form method="POST" class="centred">
-            <p><input value="${entity.id}" hidden name="id"></p>
-            <p><input type="text" value="${entity.title}" maxlength="64" placeholder="Название книги" name="title" required pattern=".*\S.*" title="Введите название книги"></p>
-            <p><input type="text" value="${entity.pubYear}" placeholder="Год публикации" name="pubYear" pattern="-?\d{4}" title="Введите год в формате ГГГГ" required></p>
+        <form:form method="post" commandName="entity" cssClass="centred">
+            <form:input path="id" value="${entity.id}" hidden="true"/>
+            <p><form:input path="title" type="text" value="${entity.title}" maxlength="64" placeholder="Название книги" required="true" pattern=".*\S.*" title="Введите название книги"/></p>
+            <p><form:input path="pubYear" type="text" value="${entity.pubYear}" placeholder="Год публикации" pattern="-?\d{4}" title="Введите год в формате ГГГГ" required="true"/></p>
             <p><select class="listMulticatch" size="1" name="genereId">
                 <option disabled>Жанр</option>
                 <c:forEach var="opt" items="${sourceListGenre}">
                     <p>
                         <c:set var="optionId" scope="session" value="${opt.id}"/>
                         <c:set var="targetId" scope="session" value="${entity.genre.id}"/>
-
                         <c:choose>
                             <c:when test="${optionId==targetId}">
                                 <option selected value="${opt.id}">${opt.title}</option>
@@ -79,7 +78,7 @@
                 </c:forEach>
             </select></p>
             <p><button formaction="editbook">Изменить</button></p>
-        </form>
+        </form:form>
     </div>
 </div>
 <script>

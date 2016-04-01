@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -36,10 +37,14 @@ public class BooksController {
         return "addbook";
     }
     @RequestMapping(value = "/addbook", method = RequestMethod.POST)
-    public String createBook(@ModelAttribute("entity") Book entity,
+    public String createBook(@ModelAttribute("entity") @Valid Book entity,
                              @RequestParam("genereId") int genereId,
                              @RequestParam(value="listAuthor", required=false) List<Integer> listAuthor,
                              BindingResult result, Map<String, Object> map) {
+        if (result.hasErrors()) {
+            initParameters(map, entity);
+            return "addbook";
+        }
         Genre genre = serviceGenre.getEntityById(genereId);
         entity.setGenre(genre);
         entity.setAuthorsList(new ArrayList<BookAuthor>());
@@ -65,10 +70,14 @@ public class BooksController {
         return "editbook";
     }
     @RequestMapping(value = "/editbook/{bookId}", method = RequestMethod.POST)
-    public String updateBook(@ModelAttribute("entity") Book entity,
+    public String updateBook(@ModelAttribute("entity") @Valid Book entity,
                              @RequestParam("genereId") int genereId,
                              @RequestParam(value="listAuthor", required=false) List<Integer> listAuthor,
                             BindingResult result, Map<String, Object> map) {
+        if (result.hasErrors()) {
+            initParameters(map, entity);
+            return "editbook";
+        }
         boolean exists;
         Book oldEntity = serviceBook.getEntityById(entity.getId());
         validator.trim(oldEntity);

@@ -104,8 +104,6 @@ public class GenresController {
     private void initParameters(@ModelAttribute("entity") Genre entity, Map<String, Object> map) {
         validator.trim(entity);
         map.put("entity", entity);
-        map.put("title", new String());
-        map.put("description", new String());
     }
 }
 

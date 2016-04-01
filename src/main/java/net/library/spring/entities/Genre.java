@@ -11,10 +11,11 @@ import javax.validation.constraints.Size;
 public class Genre extends EntityBase {
     @Basic
     @Column(name = "title")
-    @Size(min=1, max=64, message="Название: от 1 до 64 символов.")
+    @Size(min=1, max=64, message="Название: от 1 до 64 символов")
     private String title;
     @Basic
     @Column(name = "description")
+    @Size(max=400, message="Описание: до 400 символов")
     private String description;
 
     public Genre() {}
