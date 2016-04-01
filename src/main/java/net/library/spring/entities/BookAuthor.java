@@ -5,6 +5,7 @@ import javax.persistence.*;
 @Entity
 @Table(name = "books_authors", schema = "public", catalog = "library_test")
 public class BookAuthor extends EntityBase {
+
     @ManyToOne(targetEntity=Book.class, fetch = FetchType.EAGER)
     @JoinColumn(name = "book_id")
     private Book book;

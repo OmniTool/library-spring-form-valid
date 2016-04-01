@@ -9,12 +9,10 @@ import java.util.List;
 @Table(name = "books", schema = "public", catalog = "library_test")
 public class Book extends EntityBase {
 
-    @Basic
-    @Column(name = "title")
+    @Basic @Column(name = "title")
     @Size(min=1, max=64, message="Название: от 1 до 64 символов")
     private String title;
-    @Basic
-    @Column(name = "pub_year")
+    @Basic @Column(name = "pub_year")
     private Integer pubYear;
     @ManyToOne(targetEntity = Genre.class, fetch = FetchType.EAGER)
     @JoinColumn(name = "genere_id")

@@ -56,12 +56,4 @@ public class AuthorValidator implements Validator<Author> {
         else
             entity.setBiography("");
     }
-    @Override
-    public boolean isNumber(String str) {
-        return str != null && str.matches("-?\\+?\\d+");
-    }
-    @Override
-    public boolean isEmptyString(String str) {
-        return str == null || str.equals("") || str.matches("\\s+");
-    }
 }
