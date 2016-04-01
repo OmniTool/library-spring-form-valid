@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component name="dataSourceStorage">
+  <data-source name="PostgreSQL - contactmanager@localhost" uuid="8a6f4315-1eb8-4c65-94a4-5e97d3c7cbba">
+    <database-info product="" version="" jdbc-version="" driver-name="" driver-version=""/>
+  </data-source>
+  <data-source name="PostgreSQL - library_test@localhost" uuid="d38f3d7e-7a48-4311-80c6-61572c490595">
+    <database-info product="" version="" jdbc-version="" driver-name="" driver-version=""/>
+  </data-source>
+</component>

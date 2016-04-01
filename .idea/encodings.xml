@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="Encoding">
+    <file url="file://$PROJECT_DIR$/src/main/java/net/library/spring/dao/DAO.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/java/net/library/spring/dao/DAOAuthor.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/java/net/library/spring/dao/DAOBook.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/java/net/library/spring/dao/DAOBookAuthor.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/java/net/library/spring/dao/DAOGenre.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/java/net/library/spring/dao/impl/DAOAuthorImpl.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/java/net/library/spring/dao/impl/DAOBase.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/java/net/library/spring/dao/impl/DAOBookAuthorImpl.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/java/net/library/spring/dao/impl/DAOBookImpl.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/java/net/library/spring/dao/impl/DAOGenreImpl.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/java/net/library/spring/entities/Author.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/java/net/library/spring/entities/Book.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/java/net/library/spring/entities/BookAuthor.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/java/net/library/spring/entities/EntityBase.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/java/net/library/spring/entities/Genre.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/java/net/library/spring/service/Service.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/java/net/library/spring/service/ServiceAuthor.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/java/net/library/spring/service/ServiceBook.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/java/net/library/spring/service/ServiceBookAuthor.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/java/net/library/spring/service/ServiceGenre.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/java/net/library/spring/service/impl/ServiceAuthorImpl.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/java/net/library/spring/service/impl/ServiceBookAuthorImpl.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/java/net/library/spring/service/impl/ServiceBookImpl.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/java/net/library/spring/service/impl/ServiceGenreImpl.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/java/net/library/spring/validators/Validator.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/java/net/library/spring/validators/impl/AuthorValidator.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/java/net/library/spring/validators/impl/BookValidator.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/java/net/library/spring/validators/impl/GenreValidator.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/addauthor.jsp" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/addbook.jsp" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/addgenre.jsp" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/authorinfo.jsp" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/authorlist.jsp" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/bookinfo.jsp" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/booklist.jsp" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/editauthor.jsp" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/editbook.jsp" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/editgenre.jsp" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/findauthorbyname.jsp" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/findbookbyname.jsp" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/findgenrebyname.jsp" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/genreinfo.jsp" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/genrelist.jsp" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/index.jsp" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/webapp/resources/css" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/webapp/resources/images" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/webapp/resources/img" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/webapp/resources/js" charset="UTF-8" />
+    <file url="PROJECT" charset="UTF-8" />
+  </component>
+</project>
