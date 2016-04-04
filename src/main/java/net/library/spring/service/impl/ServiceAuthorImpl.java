@@ -11,11 +11,8 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class ServiceAuthorImpl extends ServiceBase<Author, DAOAuthor> implements ServiceAuthor {
 
-//    protected DAOAuthor dao;
-
     @Autowired
     public ServiceAuthorImpl(DAOAuthor dao) {
         super(dao);
-//        this.dao = dao;
     }
 }

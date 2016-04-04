@@ -11,11 +11,8 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class ServiceGenreImpl extends ServiceBase<Genre, DAOGenre> implements ServiceGenre {
 
-//    protected DAOGenre dao;
-
     @Autowired
     public ServiceGenreImpl(DAOGenre dao) {
         super(dao);
-//        this.dao = dao;
     }
 }

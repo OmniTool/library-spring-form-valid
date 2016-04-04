@@ -14,13 +14,10 @@ import java.util.List;
 @Transactional
 public class ServiceBookImpl extends ServiceBase<Book, DAOBook> implements ServiceBook {
 
-//    protected DAOBook dao;
     @Autowired
     public ServiceBookImpl(DAOBook dao) {
         super(dao);
-//        this.dao = dao;
     }
-
     public List<Book> searchBooksByGenre(Genre genre) {
         List<Book> entities = new ArrayList<>();
         for (Book book : getDao().searchBooksByGenre(genre))

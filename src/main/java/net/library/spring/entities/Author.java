@@ -19,7 +19,7 @@ public class Author extends EntityBase {
     @Size(min=1, max=64, message="Имя: от 1 до 64 символов")
     private String firstName;
     @Basic @Column(name = "middle_name")
-    @Size(min=1, max=64, message="Отчество: от 1 до 64 символов")
+    @Size(max=64, message="Отчество: до 64 символов")
     private String middleName;
     @Basic @Column(name = "birth_year")
 //    @Pattern(regexp = "-?\\d{4}", message = "Год: 4 цифры (отрицательное значение для года до н.э.)")
