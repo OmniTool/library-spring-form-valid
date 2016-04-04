@@ -65,32 +65,24 @@ public class GenresController {
         serviceGenre.create(genre);
         return "redirect:/genre/list";
     }
-    @RequestMapping(value = "/{genreId}")
-    public String readGenre(@PathVariable("genreId") Integer id, Map<String, Object> map) {
+    @RequestMapping(value = "/{id}")
+    public String readGenre(@PathVariable("id") Integer id, Map<String, Object> map) {
         map.put(GENRE_ATTRIBUTE_NAME, serviceGenre.getEntityById(id));
         return GENRE_INFO_VIEW;
     }
-    @RequestMapping(value = "/edit/{genreId}", method = RequestMethod.GET)
-    public String updateGenre(@PathVariable("genreId") Integer id, Map<String, Object> map) {
+    @RequestMapping(value = "/edit/{id}", method = RequestMethod.GET)
+    public String updateGenre(@PathVariable("id") Integer id, Map<String, Object> map) {
         initParameters(serviceGenre.getEntityById(id), map);
         return GENRE_EDIT_VIEW;
     }
-    @RequestMapping(value = "/edit/{genreId}", method = RequestMethod.POST)
+    @RequestMapping(value = "/edit/{id}", method = RequestMethod.POST)
     public String updateGenre(@ModelAttribute(GENRE_ATTRIBUTE_NAME) @Valid Genre genre,
                             BindingResult result, Map<String, Object> map) {
         if (result.hasErrors()) {
             initParameters(genre, map);
             return GENRE_EDIT_VIEW;
         }
-        boolean exists;
-        Genre oldGenre = serviceGenre.getEntityById(genre.getId());
-        validator.trim(oldGenre);
-        if (genre.getTitle().equals(oldGenre.getTitle())) {
-            exists = false;
-        } else {
-            exists = validator.exists(genre);
-        }
-        if (exists) {
+        if (validator.exists(genre)) {
             map.put(WARNING_FOR_EXISTING_GENRE_ATTRIBUTE_NAME, true);
             initParameters(genre, map);
             return GENRE_EDIT_VIEW;
@@ -98,8 +90,8 @@ public class GenresController {
         serviceGenre.update(genre);
         return "redirect:/genre/" + genre.getId();
     }
-    @RequestMapping(value = "/remove/{genreId}", method = RequestMethod.GET)
-    public String deleteGenre(@PathVariable("genreId") Integer id, Map<String, Object> map) {
+    @RequestMapping(value = "/remove/{id}", method = RequestMethod.GET)
+    public String deleteGenre(@PathVariable("id") Integer id, Map<String, Object> map) {
         Genre genre = serviceGenre.getEntityById(id);
         List<Book> listBooks = serviceBook.searchBooksByGenre(genre);
         if (listBooks.size() != 0) {

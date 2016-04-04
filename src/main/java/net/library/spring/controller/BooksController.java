@@ -80,22 +80,21 @@ public class BooksController {
         serviceBook.create(book);
         return "redirect:/book/list";
     }
-    @RequestMapping(value = "/{bookId}")
-    public String readBook(@PathVariable("bookId") Integer id, Map<String, Object> map) {
+    @RequestMapping(value = "/{id}")
+    public String readBook(@PathVariable("id") Integer id, Map<String, Object> map) {
         map.put(BOOK_ATTRIBUTE_NAME, serviceBook.getEntityById(id));
         return BOOK_INFO_VIEW;
     }
-    @RequestMapping(value = "/edit/{bookId}", method = RequestMethod.GET)
-    public String updateBook(@PathVariable("bookId") Integer id, Map<String, Object> map) {
+    @RequestMapping(value = "/edit/{id}", method = RequestMethod.GET)
+    public String updateBook(@PathVariable("id") Integer id, Map<String, Object> map) {
         initParameters(map, serviceBook.getEntityById(id));
         return BOOK_EDIT_VIEW;
     }
-    @RequestMapping(value = "/edit/{bookId}", method = RequestMethod.POST)
+    @RequestMapping(value = "/edit/{id}", method = RequestMethod.POST)
     public String updateBook(@RequestParam("genereId") int genereId,
                              @RequestParam(value="listAuthor", required=false) List<Integer> listAuthor,
                              @ModelAttribute(BOOK_ATTRIBUTE_NAME) @Valid Book book,
                             BindingResult result, Map<String, Object> map) {
-        boolean exists;
         Book oldBook = serviceBook.getEntityById(book.getId());
         validator.trim(oldBook);
         Genre genre = serviceGenre.getEntityById(genereId);
@@ -105,16 +104,11 @@ public class BooksController {
         if (listAuthor != null) for (int id : listAuthor) {
             book.getAuthorsList().add(new BookAuthor(book, serviceAuthor.getEntityById(id)));
         }
-        if (book.equals(oldBook) && book.getGenre().getId() == oldBook.getGenre().getId()) {
-            exists = false;
-        } else {
-            exists = validator.exists(book);
-        }
         if (result.hasErrors()) {
             initParameters(map, book);
             return BOOK_EDIT_VIEW;
         }
-        if (exists) {
+        if (validator.exists(book)) {
             map.put(WARNING_FOR_EXISTING_BOOK_ATTRIBUTE_NAME, true);
             initParameters(map, book);
             return BOOK_EDIT_VIEW;
@@ -122,8 +116,8 @@ public class BooksController {
         serviceBook.update(book);
         return "redirect:/book/" + book.getId();
     }
-    @RequestMapping(value = "/remove/{bookId}", method = RequestMethod.GET)
-    public String deleteBook(@PathVariable("bookId") Integer id) {
+    @RequestMapping(value = "/remove/{id}", method = RequestMethod.GET)
+    public String deleteBook(@PathVariable("id") Integer id) {
         Book book = serviceBook.getEntityById(id);
         book.getAuthorsList().clear();
         serviceBook.update(book);

@@ -19,10 +19,10 @@ public class GenreValidator implements Validator<Genre> {
         trim(entity);
         List<Genre> list = dao.searchEntityByName(entity);
         String title = entity.getTitle().toUpperCase();
-
-        for (Genre e : list) {
-            trim(e);
-            if (e.getTitle().toUpperCase().equals(title))
+        for (Genre genre : list) {
+            trim(genre);
+            if (genre.getTitle().toUpperCase().equals(title)
+                    && genre.getId() != entity.getId())
                 return true;
         }
         return false;

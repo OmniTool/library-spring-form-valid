@@ -21,12 +21,12 @@ public class BookValidator implements Validator<Book> {
         String title = entity.getTitle().toUpperCase();
         int pubYear = entity.getPubYear();
         int genreId = entity.getGenre().getId();
-
-        for (Book e : list) {
-            trim(e);
-            if (e.getTitle().toUpperCase().equals(title)
-                    && e.getPubYear()==pubYear
-                    && e.getGenre().getId()==genreId)
+        for (Book book : list) {
+            trim(book);
+            if (book.getTitle().toUpperCase().equals(title)
+                    && book.getPubYear()==pubYear
+                    && book.getGenre().getId()==genreId
+                    && book.getId() != entity.getId())
                 return true;
         }
         return false;

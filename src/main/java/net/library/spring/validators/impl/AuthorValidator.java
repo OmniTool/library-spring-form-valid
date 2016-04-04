@@ -22,18 +22,14 @@ public class AuthorValidator implements Validator<Author> {
         String middleName = entity.getMiddleName().toUpperCase();
         String secondName = entity.getSecondName().toUpperCase();
         int birthYear = entity.getBirthYear();
-
-        for (Author e : list) {
-            trim(e);
-            String firstNameE = e.getFirstName().toUpperCase();
-            String middleNameE = e.getMiddleName().toUpperCase();
-            String secondNameE = e.getSecondName().toUpperCase();
-            int birthYearE = e.getBirthYear();
-                if (middleNameE.equals(middleName)
-                        && firstNameE.equals(firstName)
-                        && secondNameE.equals(secondName)
-                        && birthYearE==birthYear)
-                    return true;
+        for (Author author : list) {
+            trim(author);
+            if (author.getFirstName().toUpperCase().equals(firstName)
+                    && author.getMiddleName().toUpperCase().equals(middleName)
+                    && author.getSecondName().toUpperCase().equals(secondName)
+                    && author.getBirthYear()==birthYear
+                    && author.getId() != entity.getId())
+                return true;
         }
         return false;
     }

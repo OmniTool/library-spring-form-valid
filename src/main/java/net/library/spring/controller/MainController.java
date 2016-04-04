@@ -6,7 +6,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class MainController {
 
-    public static final String HOMEPAGE_VIEW = "index";
+    private static final String HOMEPAGE_VIEW = "index";
+    public static final String SHOW_ALL_ACTION_PATH = "list";
+    public static final String ADD_ACTION_PATH = "add";
+    public static final String EDIT_ACTION_PATH = "edit";
+    public static final String REMOVE_ACTION_PATH = "remove";
+    public static final String SEARCH_ACTION_PATH = "find";
 
     @RequestMapping({"/","/home","index"})
     public String home() {

@@ -64,39 +64,38 @@ public class AuthorsController {
     }
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     public String createAuthor(@RequestParam(value= BOOKS_LIST_ATTRIBUTE_NAME, required=false) List<Integer> listBook,
-                               @ModelAttribute(AUTHOR_ATTRIBUTE_NAME) @Valid Author entity,
+                               @ModelAttribute(AUTHOR_ATTRIBUTE_NAME) @Valid Author author,
                              BindingResult result, Map<String, Object> map) {
-        entity.setBooksList(new ArrayList<BookAuthor>());
-        if (listBook != null)for (int id : listBook) {
-            entity.getBooksList().add(new BookAuthor(serviceBook.getEntityById(id), entity));
+        author.setBooksList(new ArrayList<BookAuthor>());
+        if (listBook != null) for (int id : listBook) {
+            author.getBooksList().add(new BookAuthor(serviceBook.getEntityById(id), author));
         }
         if (result.hasErrors()) {
-            initParameters(map, entity);
+            initParameters(map, author);
             return AUTHOR_ADD_VIEW;
         }
-        if (validator.exists(entity)) {
+        if (validator.exists(author)) {
             map.put(WARNING_FOR_EXISTING_AUTHOR_ATTRIBUTE_NAME, true);
-            initParameters(map, entity);
+            initParameters(map, author);
             return AUTHOR_ADD_VIEW;
         }
-        serviceAuthor.create(entity);
+        serviceAuthor.create(author);
         return "redirect:/author/list";
     }
-    @RequestMapping(value = "/{authorId}")
-    public String readAuthor(@PathVariable("authorId") Integer id, Map<String, Object> map) {
+    @RequestMapping(value = "/{id}")
+    public String readAuthor(@PathVariable("id") Integer id, Map<String, Object> map) {
         map.put(AUTHOR_ATTRIBUTE_NAME, serviceAuthor.getEntityById(id));
         return AUTHOR_INFO_VIEW;
     }
-    @RequestMapping(value = "/edit/{authorId}", method = RequestMethod.GET)
-    public String updateAuthor(@PathVariable("authorId") Integer id, Map<String, Object> map) {
+    @RequestMapping(value = "/edit/{id}", method = RequestMethod.GET)
+    public String updateAuthor(@PathVariable("id") Integer id, Map<String, Object> map) {
         initParameters(map, serviceAuthor.getEntityById(id));
         return AUTHOR_EDIT_VIEW;
     }
-    @RequestMapping(value = "/edit/{authorId}", method = RequestMethod.POST)
+    @RequestMapping(value = "/edit/{id}", method = RequestMethod.POST)
     public String updateAuthor(@RequestParam(value= BOOKS_LIST_ATTRIBUTE_NAME, required=false) List<Integer> listBook,
                                @ModelAttribute(AUTHOR_ATTRIBUTE_NAME) @Valid Author author,
                             BindingResult result, Map<String, Object> map) {
-        boolean exists;
         Author oldAuthor = serviceAuthor.getEntityById(author.getId());
         validator.trim(oldAuthor);
         author.setBooksList(oldAuthor.getBooksList());
@@ -104,20 +103,11 @@ public class AuthorsController {
         if (listBook != null) for (int id : listBook) {
             author.getBooksList().add(new BookAuthor(serviceBook.getEntityById(id), author));
         }
-        //todo: вынести в отдельный метод
-        if (author.getFirstName().equals(oldAuthor.getFirstName())
-                && author.getMiddleName().equals(oldAuthor.getMiddleName())
-                && author.getSecondName().equals(oldAuthor.getSecondName())
-                && author.getBirthYear().equals(oldAuthor.getBirthYear())) {
-            exists = false;
-        } else {
-            exists = validator.exists(author);
-        }
         if (result.hasErrors()) {
             initParameters(map, author);
             return AUTHOR_EDIT_VIEW;
         }
-        if (exists) {
+        if (validator.exists(author)) {
             map.put(WARNING_FOR_EXISTING_AUTHOR_ATTRIBUTE_NAME, true);
             initParameters(map, author);
             return AUTHOR_EDIT_VIEW;
@@ -125,8 +115,8 @@ public class AuthorsController {
         serviceAuthor.update(author);
         return "redirect:/author/" + author.getId();
     }
-    @RequestMapping(value = "/remove/{authorId}", method = RequestMethod.GET)
-    public String deleteAuthor(@PathVariable("authorId") Integer id) {
+    @RequestMapping(value = "/remove/{id}", method = RequestMethod.GET)
+    public String deleteAuthor(@PathVariable("id") Integer id) {
         Author author = serviceAuthor.getEntityById(id);
         author.getBooksList().clear();
         serviceAuthor.update(author);
