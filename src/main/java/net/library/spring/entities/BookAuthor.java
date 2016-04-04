@@ -44,12 +44,5 @@ public class BookAuthor extends EntityBase {
         result = 31 * result + (author != null ? author.hashCode() : 0);
         return result;
     }
-    @Override
-    public String toString() {
-        return "BookAuthor{" +
-                "id='" + id + '\'' +
-                "book=" + book +
-                ", author=" + author +
-                '}';
-    }
+
 }

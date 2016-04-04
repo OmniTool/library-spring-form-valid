@@ -46,12 +46,5 @@ public class Genre extends EntityBase {
         result = 31 * result + (description != null ? description.hashCode() : 0);
         return result;
     }
-    @Override
-    public String toString() {
-        return "GenreHiber{" +
-                "id='" + id + '\'' +
-                "title='" + title + '\'' +
-                ", description='" + description + '\'' +
-                '}';
-    }
+
 }

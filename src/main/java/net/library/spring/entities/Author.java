@@ -13,19 +13,19 @@ import java.util.List;
 public class Author extends EntityBase {
 
     @Basic @Column(name = "second_name")
-    @Size(min=1, max=6, message="Фамилия: от 1 до 64 символов")
+    @Size(min=1, max=64, message="Фамилия: от 1 до 64 символов")
     private String secondName;
     @Basic @Column(name = "first_name")
-    @Size(min=1, max=6, message="Имя: от 1 до 64 символов")
+    @Size(min=1, max=64, message="Имя: от 1 до 64 символов")
     private String firstName;
     @Basic @Column(name = "middle_name")
-    @Size(min=1, max=6, message="Отчество: от 1 до 64 символов")
+    @Size(min=1, max=64, message="Отчество: от 1 до 64 символов")
     private String middleName;
     @Basic @Column(name = "birth_year")
 //    @Pattern(regexp = "-?\\d{4}", message = "Год: 4 цифры (отрицательное значение для года до н.э.)")
     private Integer birthYear;
     @Basic @Column(name = "biography")
-    @Size(max=40, message="Биография: до 400 символов")
+    @Size(max=400, message="Биография: до 400 символов")
     private String biography;
     @OneToMany(targetEntity=BookAuthor.class, mappedBy = "author", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<BookAuthor> booksList = new ArrayList<>();
@@ -90,15 +90,5 @@ public class Author extends EntityBase {
         result = 31 * result + (biography != null ? biography.hashCode() : 0);
         return result;
     }
-    @Override
-    public String toString() {
-        return "AuthorHiber{" +
-                "id='" + id + '\'' +
-                "secondName='" + secondName + '\'' +
-                ", firstName='" + firstName + '\'' +
-                ", middleName='" + middleName + '\'' +
-                ", birthYear=" + birthYear +
-                ", biography='" + biography + '\'' +
-                '}';
-    }
+
 }
