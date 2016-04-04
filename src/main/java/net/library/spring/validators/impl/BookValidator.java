@@ -33,9 +33,7 @@ public class BookValidator implements Validator<Book> {
     }
     @Override
     public void trim(Book entity) {
-        if (entity.getTitle() != null)
-            entity.setTitle(entity.getTitle().trim());
-        else
-            entity.setTitle("");
+        if (entity.getTitle() != null) entity.setTitle(entity.getTitle().trim());
+        else entity.setTitle("");
     }
 }

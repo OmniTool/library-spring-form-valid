@@ -34,6 +34,7 @@ public class AuthorsController {
     private static final String MIDDLE_NAME_ATTRIBUTE_NAME = "middleName";
     private static final String SECOND_NAME_ATTRIBUTE_NAME = "secondName";
 
+
     @Autowired private ServiceAuthor serviceAuthor;
     @Autowired private ServiceBook serviceBook;
     @Autowired private Validator<Author> validator;
