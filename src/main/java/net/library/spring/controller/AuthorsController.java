@@ -67,6 +67,7 @@ public class AuthorsController {
                                @ModelAttribute(AUTHOR_ATTRIBUTE_NAME) @Valid Author author,
                              BindingResult result, Map<String, Object> map) {
         author.setBooksList(new ArrayList<BookAuthor>());
+        author.getBooksList().clear();
         if (listBook != null) for (int id : listBook) {
             author.getBooksList().add(new BookAuthor(serviceBook.getEntityById(id), author));
         }
@@ -132,5 +133,6 @@ public class AuthorsController {
         map.put(SELECTED_BOOKS_LIST_ATTRIBUTE_NAME, books);
         map.put(SOURCE_BOOKS_LIST_ATTRIBUTE_NAME, serviceBook.getAll());
     }
+
 }
 
