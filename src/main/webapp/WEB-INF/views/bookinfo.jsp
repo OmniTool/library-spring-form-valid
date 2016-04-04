@@ -11,19 +11,19 @@
 <div class="parent topspace">
     <div class="block">
         <p><h1 class="centred leftspace"><a href="/index">Библиотека</a></h1></p>
-        <p><h2 class="centred"><a href="/books">Книги</a> > ${entity.title}</h2></p>
+        <p><h2 class="centred"><a href="/book/list">Книги</a> > ${entity.title}</h2></p>
     </div>
 </div>
 <div class="parent big_topspace">
     <p>
     <form method="GET">
         <p><input TYPE="button" VALUE="Изменить"
-                  onclick="window.location.href='/editbook/${entity.id}'"></p>
+                  onclick="window.location.href='/book/edit/${entity.id}'"></p>
     </form>
 
     <form method="GET">
         <p><input TYPE="button" VALUE="Удалить"
-                  onclick="window.location.href='/removebook/${entity.id}'"></p>
+                  onclick="window.location.href='/book/remove/${entity.id}'"></p>
     </form>
     </p>
     <p>
@@ -31,12 +31,12 @@
         <p ><h3 class="centred">Год публикации</h3></p>
     <p class="centred">${entity.pubYear}</p>
     <p class="topspace"><h3 class="centred">Жанр</h3></p>
-    <p class="centred"><a href="/findgenre/${entity.genre.id}" class="content">${entity.genre.title}</a></p>
+    <p class="centred"><a href="/genre/${entity.genre.id}" class="content">${entity.genre.title}</a></p>
     <p class="topspace"><h3 class="centred">Авторы</h3></p>
     <p class="centred">
         <c:forEach var="item" items="${entity.authorsList}">
             <p class="centred">
-                <a href="/findauthor/${item.author.id}" class="content">${item.author.firstName} ${item.author.middleName} ${item.author.secondName}</a>
+                <a href="/author/${item.author.id}" class="content">${item.author.firstName} ${item.author.middleName} ${item.author.secondName}</a>
             </p>
         </c:forEach>
     </p>

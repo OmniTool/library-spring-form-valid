@@ -12,25 +12,25 @@
 <div class="parent topspace">
     <div class="block">
         <p><h1 class="centred leftspace"><a href="/index">Библиотека</a></h1></p>
-        <p><h2 class="centred"><a href="/genres">Жанры</a></h2></p>
+        <p><h2 class="centred"><a href="/genre/list">Жанры</a></h2></p>
     </div>
 </div>
 <div class="parent big_topspace">
     <p>
     <form method="POST">
         <p><input type="text" value="" maxlength="64" placeholder="Название" name="title" pattern=".*\S.*" title="Введите название">
-            <button formaction="findgenrebyname">Найти</button>
+            <button formaction="/genre/find">Найти</button>
     </form>
     </p>
     <p class="topspace">
     <form>
-        <p><button formaction="addgenre">Добавить</button></p>
+        <p><button formaction="/genre/add">Добавить</button></p>
     </form>
     </p>
     <p class="topspace">
         <c:forEach var="item" items="${list}">
     <p>
-        <a href="/findgenre/${item.id}" class="content">${item.title}</a>
+        <a href="/genre/${item.id}" class="content">${item.title}</a>
     </p>
     </c:forEach>
     </p>

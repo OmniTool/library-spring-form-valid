@@ -14,7 +14,7 @@
 <div class="parent topspace">
     <div class="block">
         <p><h1 class="centred"><a href="/index">Библиотека</a></h1></p>
-        <p><h2 class="centred"><a href="/genres">Жанры</a> > <a href="/findgenre/${entity.id}">${entity.title}</a> > Редактирование</h2></p>
+        <p><h2 class="centred"><a href="/genre/list">Жанры</a> > <a href="/genre/${entity.id}">${entity.title}</a> > Редактирование</h2></p>
     </div>
 </div>
 <div class="parent big_topspace">
@@ -32,7 +32,7 @@
         <p><form:errors path="title" cssClass="message" delimiter=", "/></p>
         <p><form:textarea path="description" placeholder="Описание жанра" value="${entity.description}"/></p>
         <p><form:errors path="description" cssClass="message" delimiter=", "/></p>
-        <button formaction="editgenre">Изменить</button>
+        <button formaction="">Изменить</button>
     </form:form>
     </div>
     </p>

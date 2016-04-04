@@ -17,7 +17,7 @@
 <div class="parent topspace">
     <div class="block">
         <p><h1 class="centred"><a href="/index">Библиотека</a></h1></p>
-        <p><h2 class="centred"><a href="/authors">Авторы</a> > <a href="/findauthor/${entity.id}">${entity.firstName} ${entity.middleName} ${entity.secondName}</a> > Редактирование</h2></p>
+        <p><h2 class="centred"><a href="/author/list">Авторы</a> > <a href="/author/${entity.id}">${entity.firstName} ${entity.middleName} ${entity.secondName}</a> > Редактирование</h2></p>
     </div>
 </div>
 <div class="parent big_topspace">
@@ -68,7 +68,7 @@
                     </p>
                 </c:forEach>
             </select></p>
-            <button formaction="editauthor">Изменить</button>
+            <button formaction="">Изменить</button>
         </form:form>
     </div>
     </p>

@@ -17,7 +17,7 @@
 <div class="parent topspace">
     <div class="block">
         <p><h1 class="centred leftspace"><a href="/index">Библиотека</a></h1></p>
-        <p><h2 class="centred"><a href="/books">Книги</a> > Добавление</h2></p>
+        <p><h2 class="centred"><a href="/book/list">Книги</a> > Добавление</h2></p>
     </div>
 </div>
 <div class="parent big_topspace">
@@ -78,7 +78,7 @@
                     </p>
                 </c:forEach>
             </select></p>
-            <p><button formaction="addbook">Добавить</button></p>
+            <p><button formaction="/book/add">Добавить</button></p>
         </form:form>
     </div>
     </p>

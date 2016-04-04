@@ -11,18 +11,18 @@
 <div class="parent topspace">
     <div class="block">
         <p><h1 class="centred leftspace"><a href="/index">Библиотека</a></h1></p>
-        <p><h2 class="centred"><a href="/authors">Авторы</a> > ${entity.firstName} ${entity.middleName} ${entity.secondName}</h2></p>
+        <p><h2 class="centred"><a href="/author/list">Авторы</a> > ${entity.firstName} ${entity.middleName} ${entity.secondName}</h2></p>
     </div>
 </div>
 <div class="parent big_topspace">
     <p>
     <form method="GET">
         <p><input TYPE="button" VALUE="Изменить"
-                  onclick="window.location.href='/editauthor/${entity.id}'"></p>
+                  onclick="window.location.href='/author/edit/${entity.id}'"></p>
     </form>
     <form method="GET">
         <p><input TYPE="button" VALUE="Удалить"
-                  onclick="window.location.href='/removeauthor/${entity.id}'"></p>
+                  onclick="window.location.href='/author/remove/${entity.id}'"></p>
     </form>
     </p>
     <p>
@@ -35,7 +35,7 @@
     <p class="centred">
         <c:forEach var="item" items="${entity.booksList}">
     <p class="centred">
-        <a href="/findbook/${item.book.id}" class="content">${item.book.title}</a>
+        <a href="/book/${item.book.id}" class="content">${item.book.title}</a>
     </p>
     </c:forEach>
     </p>
