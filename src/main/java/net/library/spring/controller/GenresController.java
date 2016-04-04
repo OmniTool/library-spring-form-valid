@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.Map;
 
 @Controller
-@RequestMapping("/genre")
+@RequestMapping(MainController.GENRE_ROOT_URL)
 public class GenresController {
 
     private static final String GENRE_INFO_VIEW = "genreinfo";
@@ -31,12 +31,12 @@ public class GenresController {
     @Autowired private ServiceBook serviceBook;
     @Autowired private Validator<Genre> validator;
 
-    @RequestMapping("/list")
+    @RequestMapping(MainController.SHOW_ALL_ACTION_URL)
     public String listGenres(Map<String, Object> map) {
         map.put(GENRES_LIST_ATTRIBUTE_NAME, serviceGenre.getAll());
         return GENRE_LIST_VIEW;
     }
-    @RequestMapping(value = "/find", method = RequestMethod.POST)
+    @RequestMapping(value = MainController.SEARCH_ACTION_URL, method = RequestMethod.POST)
     public String findGenre(@RequestParam(TITLE_ATTRIBUTE_NAME) String title, Map<String, Object> map) {
         Genre genre = new Genre();
         genre.setTitle(title);
@@ -44,68 +44,64 @@ public class GenresController {
         return GENRE_LIST_VIEW;
     }
 
-    @RequestMapping(value = "/add", method = RequestMethod.GET)
+    @RequestMapping(value = MainController.ADD_ACTION_URL, method = RequestMethod.GET)
     public String createGenre(Map<String, Object> map) {
         Genre genre = new Genre();
-        initParameters(genre,map);
+        initAttributes(genre, map);
         return GENRE_ADD_VIEW;
     }
-    @RequestMapping(value = "/add", method = RequestMethod.POST)
+    @RequestMapping(value = MainController.ADD_ACTION_URL, method = RequestMethod.POST)
     public String createGenre(@ModelAttribute(GENRE_ATTRIBUTE_NAME) @Valid Genre genre,
                              BindingResult result, Map<String, Object> map) {
-        if (result.hasErrors()) {
-            initParameters(genre, map);
-            return GENRE_ADD_VIEW;
-        }
-        if (validator.exists(genre)) {
-            map.put(WARNING_FOR_EXISTING_GENRE_ATTRIBUTE_NAME, true);
-            initParameters(genre, map);
-            return GENRE_ADD_VIEW;
-        }
+        if (!dataIsCorrect(genre, result, map)) return GENRE_ADD_VIEW;
         serviceGenre.create(genre);
-        return "redirect:/genre/list";
+        return "redirect:" + MainController.GENRE_ROOT_URL + MainController.SHOW_ALL_ACTION_URL;
     }
     @RequestMapping(value = "/{id}")
     public String readGenre(@PathVariable("id") Integer id, Map<String, Object> map) {
         map.put(GENRE_ATTRIBUTE_NAME, serviceGenre.getEntityById(id));
         return GENRE_INFO_VIEW;
     }
-    @RequestMapping(value = "/edit/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = MainController.EDIT_ACTION_URL + "/{id}", method = RequestMethod.GET)
     public String updateGenre(@PathVariable("id") Integer id, Map<String, Object> map) {
-        initParameters(serviceGenre.getEntityById(id), map);
+        initAttributes(serviceGenre.getEntityById(id), map);
         return GENRE_EDIT_VIEW;
     }
-    @RequestMapping(value = "/edit/{id}", method = RequestMethod.POST)
+    @RequestMapping(value = MainController.EDIT_ACTION_URL + "/{id}", method = RequestMethod.POST)
     public String updateGenre(@ModelAttribute(GENRE_ATTRIBUTE_NAME) @Valid Genre genre,
                             BindingResult result, Map<String, Object> map) {
-        if (result.hasErrors()) {
-            initParameters(genre, map);
-            return GENRE_EDIT_VIEW;
-        }
-        if (validator.exists(genre)) {
-            map.put(WARNING_FOR_EXISTING_GENRE_ATTRIBUTE_NAME, true);
-            initParameters(genre, map);
-            return GENRE_EDIT_VIEW;
-        }
+        if (!dataIsCorrect(genre, result, map)) return GENRE_EDIT_VIEW;
         serviceGenre.update(genre);
-        return "redirect:/genre/" + genre.getId();
+        return "redirect:" + MainController.GENRE_ROOT_URL + "/" + genre.getId();
     }
-    @RequestMapping(value = "/remove/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = MainController.REMOVE_ACTION_URL + "/{id}", method = RequestMethod.GET)
     public String deleteGenre(@PathVariable("id") Integer id, Map<String, Object> map) {
         Genre genre = serviceGenre.getEntityById(id);
         List<Book> listBooks = serviceBook.searchBooksByGenre(genre);
         if (listBooks.size() != 0) {
             map.put(WARNING_FOR_EXISTING_GENRE_ATTRIBUTE_NAME, true);
             map.put(RELATED_BOOKS_LIST_ATTRIBUTE_NAME, listBooks);
-            initParameters(genre, map);
+            initAttributes(genre, map);
             return GENRE_INFO_VIEW;
         }
         serviceGenre.delete(id);
-        return "redirect:/genre/list";
+        return "redirect:" + MainController.GENRE_ROOT_URL + MainController.SHOW_ALL_ACTION_URL;
     }
-    private void initParameters(@ModelAttribute(GENRE_ATTRIBUTE_NAME) Genre genre, Map<String, Object> map) {
+    private void initAttributes(@ModelAttribute(GENRE_ATTRIBUTE_NAME) Genre genre, Map<String, Object> map) {
         validator.trim(genre);
         map.put(GENRE_ATTRIBUTE_NAME, genre);
+    }
+    private boolean dataIsCorrect(@ModelAttribute(GENRE_ATTRIBUTE_NAME) @Valid Genre genre, BindingResult result, Map<String, Object> map) {
+        if (result.hasErrors()) {
+            initAttributes(genre, map);
+            return false;
+        }
+        if (validator.exists(genre)) {
+            map.put(WARNING_FOR_EXISTING_GENRE_ATTRIBUTE_NAME, true);
+            initAttributes(genre, map);
+            return false;
+        }
+        return true;
     }
 }
 

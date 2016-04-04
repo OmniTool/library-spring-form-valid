@@ -19,7 +19,7 @@ import java.util.List;
 import java.util.Map;
 
 @Controller
-@RequestMapping("/book")
+@RequestMapping(MainController.BOOK_ROOT_URL)
 public class BooksController {
 
     private static final String BOOK_EDIT_VIEW = "editbook";
@@ -33,17 +33,19 @@ public class BooksController {
     private static final String SOURCE_AUTHORS_LIST_ATTRIBUTE_NAME = "sourceListAuthor";
     private static final String SOURCE_GENRES_LIST_ATTRIBUTE_NAME = "sourceListGenre";
     private static final String SELECTED_AUTHORS_LIST_ATTRIBUTE_NAME = "currentListAuthor";
+    public static final String AUTHORS_LIST_ATTRIBUTE_NAME = "listAuthor";
+    public static final String GENERE_ID_ATTRIBUTE_NAME = "genereId";
     @Autowired private ServiceBook serviceBook;
     @Autowired private ServiceAuthor serviceAuthor;
     @Autowired private ServiceGenre serviceGenre;
     @Autowired private Validator<Book> validator;
 
-    @RequestMapping("/list")
+    @RequestMapping(MainController.SHOW_ALL_ACTION_URL)
     public String listBooks(Map<String, Object> map) {
         map.put(BOOKS_LIST_ATTRIBUTE_NAME, serviceBook.getAll());
         return BOOKS_LIST_VIEW;
     }
-    @RequestMapping(value = "/find", method = RequestMethod.POST)
+    @RequestMapping(value = MainController.SEARCH_ACTION_URL, method = RequestMethod.POST)
     public String findBook(@RequestParam(TITLE_ATTRIBUTE_NAME) String title, Map<String, Object> map) {
         Book book = new Book();
         book.setTitle(title);
@@ -51,80 +53,52 @@ public class BooksController {
         return BOOKS_LIST_VIEW;
     }
 
-    @RequestMapping(value = "/add", method = RequestMethod.GET)
+    @RequestMapping(value = MainController.ADD_ACTION_URL, method = RequestMethod.GET)
     public String createBook(Map<String, Object> map) {
         Book book = new Book();
-        initParameters(map, book);
+        initAttributes(map, book);
         return BOOK_ADD_VIEW;
     }
-    @RequestMapping(value = "/add", method = RequestMethod.POST)
-    public String createBook(@RequestParam("genereId") int genereId,
-                             @RequestParam(value="listAuthor", required=false) List<Integer> listAuthor,
+    @RequestMapping(value = MainController.ADD_ACTION_URL, method = RequestMethod.POST)
+    public String createBook(@RequestParam(GENERE_ID_ATTRIBUTE_NAME) int genereId,
+                             @RequestParam(value= AUTHORS_LIST_ATTRIBUTE_NAME, required=false) List<Integer> listAuthorIds,
                             @ModelAttribute(BOOK_ATTRIBUTE_NAME) @Valid Book book,
                              BindingResult result, Map<String, Object> map) {
-        Genre genre = serviceGenre.getEntityById(genereId);
-        book.setGenre(genre);
-        book.setAuthorsList(new ArrayList<BookAuthor>());
-        if (listAuthor != null) for (int id : listAuthor) {
-            book.getAuthorsList().add(new BookAuthor(book, serviceAuthor.getEntityById(id)));
-        }
-        if (result.hasErrors()) {
-            initParameters(map, book);
-            return BOOK_ADD_VIEW;
-        }
-        if (validator.exists(book)) {
-            map.put(WARNING_FOR_EXISTING_BOOK_ATTRIBUTE_NAME, true);
-            initParameters(map, book);
-            return BOOK_ADD_VIEW;
-        }
+        initEntityFromAttributes(book, new ArrayList<BookAuthor>(), listAuthorIds, genereId);
+        if (!dataIsCorrect(book, result, map)) return BOOK_ADD_VIEW;
         serviceBook.create(book);
-        return "redirect:/book/list";
+        return "redirect:" + MainController.BOOK_ROOT_URL + MainController.SHOW_ALL_ACTION_URL;
     }
     @RequestMapping(value = "/{id}")
     public String readBook(@PathVariable("id") Integer id, Map<String, Object> map) {
         map.put(BOOK_ATTRIBUTE_NAME, serviceBook.getEntityById(id));
         return BOOK_INFO_VIEW;
     }
-    @RequestMapping(value = "/edit/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = MainController.EDIT_ACTION_URL + "/{id}", method = RequestMethod.GET)
     public String updateBook(@PathVariable("id") Integer id, Map<String, Object> map) {
-        initParameters(map, serviceBook.getEntityById(id));
+        initAttributes(map, serviceBook.getEntityById(id));
         return BOOK_EDIT_VIEW;
     }
-    @RequestMapping(value = "/edit/{id}", method = RequestMethod.POST)
-    public String updateBook(@RequestParam("genereId") int genereId,
-                             @RequestParam(value="listAuthor", required=false) List<Integer> listAuthor,
+    @RequestMapping(value = MainController.EDIT_ACTION_URL + "/{id}", method = RequestMethod.POST)
+    public String updateBook(@RequestParam(GENERE_ID_ATTRIBUTE_NAME) int genereId,
+                             @RequestParam(value= AUTHORS_LIST_ATTRIBUTE_NAME, required=false) List<Integer> listAuthorIds,
                              @ModelAttribute(BOOK_ATTRIBUTE_NAME) @Valid Book book,
                             BindingResult result, Map<String, Object> map) {
         Book oldBook = serviceBook.getEntityById(book.getId());
-        validator.trim(oldBook);
-        Genre genre = serviceGenre.getEntityById(genereId);
-        book.setGenre(genre);
-        book.setAuthorsList(oldBook.getAuthorsList());
-        book.getAuthorsList().clear();
-        if (listAuthor != null) for (int id : listAuthor) {
-            book.getAuthorsList().add(new BookAuthor(book, serviceAuthor.getEntityById(id)));
-        }
-        if (result.hasErrors()) {
-            initParameters(map, book);
-            return BOOK_EDIT_VIEW;
-        }
-        if (validator.exists(book)) {
-            map.put(WARNING_FOR_EXISTING_BOOK_ATTRIBUTE_NAME, true);
-            initParameters(map, book);
-            return BOOK_EDIT_VIEW;
-        }
+        initEntityFromAttributes(book, oldBook.getAuthorsList(), listAuthorIds, genereId);
+        if (!dataIsCorrect(book, result, map)) return BOOK_EDIT_VIEW;
         serviceBook.update(book);
-        return "redirect:/book/" + book.getId();
+        return "redirect:" + MainController.BOOK_ROOT_URL + "/" + book.getId();
     }
-    @RequestMapping(value = "/remove/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = MainController.REMOVE_ACTION_URL + "/{id}", method = RequestMethod.GET)
     public String deleteBook(@PathVariable("id") Integer id) {
         Book book = serviceBook.getEntityById(id);
         book.getAuthorsList().clear();
         serviceBook.update(book);
         serviceBook.delete(id);
-        return "redirect:/book/list";
+        return "redirect:" + MainController.BOOK_ROOT_URL + MainController.SHOW_ALL_ACTION_URL;
     }
-    private void initParameters(Map<String, Object> map, Book book) {
+    private void initAttributes(Map<String, Object> map, Book book) {
         validator.trim(book);
         map.put(BOOK_ATTRIBUTE_NAME, book);
         List<Author> authors = new ArrayList<>();
@@ -133,6 +107,27 @@ public class BooksController {
         map.put(SELECTED_AUTHORS_LIST_ATTRIBUTE_NAME, authors);
         map.put(SOURCE_AUTHORS_LIST_ATTRIBUTE_NAME, serviceAuthor.getAll());
         map.put(SOURCE_GENRES_LIST_ATTRIBUTE_NAME, serviceGenre.getAll());
+    }
+    private void initEntityFromAttributes(Book book, List<BookAuthor> authorsList, List<Integer> listAuthorIds, int genereId) {
+        Genre genre = serviceGenre.getEntityById(genereId);
+        book.setGenre(genre);
+        book.setAuthorsList(authorsList);
+        book.getAuthorsList().clear();
+        if (listAuthorIds != null) for (int id : listAuthorIds) {
+            book.getAuthorsList().add(new BookAuthor(book, serviceAuthor.getEntityById(id)));
+        }
+    }
+    private boolean dataIsCorrect(@ModelAttribute(BOOK_ATTRIBUTE_NAME) @Valid Book book, BindingResult result, Map<String, Object> map) {
+        if (result.hasErrors()) {
+            initAttributes(map, book);
+            return false;
+        }
+        if (validator.exists(book)) {
+            map.put(WARNING_FOR_EXISTING_BOOK_ATTRIBUTE_NAME, true);
+            initAttributes(map, book);
+            return false;
+        }
+        return true;
     }
 }
 

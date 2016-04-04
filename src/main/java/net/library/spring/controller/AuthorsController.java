@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.Map;
 
 @Controller
-@RequestMapping("/author")
+@RequestMapping(MainController.AUTHOR_ROOT_URL)
 public class AuthorsController {
 
     private static final String AUTHORS_LIST_VIEW = "authorlist";
@@ -38,12 +38,12 @@ public class AuthorsController {
     @Autowired private ServiceBook serviceBook;
     @Autowired private Validator<Author> validator;
 
-    @RequestMapping("/list")
+    @RequestMapping(MainController.SHOW_ALL_ACTION_URL)
     public String listAuthors(Map<String, Object> map) {
         map.put(AUTHORS_LIST_ATTRIBUTE_NAME, serviceAuthor.getAll());
         return AUTHORS_LIST_VIEW;
     }
-    @RequestMapping(value = "/find", method = RequestMethod.POST)
+    @RequestMapping(value = MainController.SEARCH_ACTION_URL, method = RequestMethod.POST)
     public String findAuthor(@RequestParam(FIRST_NAME_ATTRIBUTE_NAME) String firstName,
                              @RequestParam(MIDDLE_NAME_ATTRIBUTE_NAME) String middleName,
                              @RequestParam(SECOND_NAME_ATTRIBUTE_NAME) String secondName,
@@ -56,75 +56,50 @@ public class AuthorsController {
         return AUTHORS_LIST_VIEW;
     }
 
-    @RequestMapping(value = "/add", method = RequestMethod.GET)
+    @RequestMapping(value = MainController.ADD_ACTION_URL, method = RequestMethod.GET)
     public String createAuthor(Map<String, Object> map) {
         Author entity = new Author();
-        initParameters(map, entity);
+        initAttributes(map, entity);
         return AUTHOR_ADD_VIEW;
     }
-    @RequestMapping(value = "/add", method = RequestMethod.POST)
-    public String createAuthor(@RequestParam(value= BOOKS_LIST_ATTRIBUTE_NAME, required=false) List<Integer> listBook,
+    @RequestMapping(value = MainController.ADD_ACTION_URL, method = RequestMethod.POST)
+    public String createAuthor(@RequestParam(value= BOOKS_LIST_ATTRIBUTE_NAME, required=false) List<Integer> listBookIds,
                                @ModelAttribute(AUTHOR_ATTRIBUTE_NAME) @Valid Author author,
                              BindingResult result, Map<String, Object> map) {
-        author.setBooksList(new ArrayList<BookAuthor>());
-        author.getBooksList().clear();
-        if (listBook != null) for (int id : listBook) {
-            author.getBooksList().add(new BookAuthor(serviceBook.getEntityById(id), author));
-        }
-        if (result.hasErrors()) {
-            initParameters(map, author);
-            return AUTHOR_ADD_VIEW;
-        }
-        if (validator.exists(author)) {
-            map.put(WARNING_FOR_EXISTING_AUTHOR_ATTRIBUTE_NAME, true);
-            initParameters(map, author);
-            return AUTHOR_ADD_VIEW;
-        }
+        initEntityFromAttributes(author, new ArrayList<BookAuthor>(), listBookIds);
+        if (!dataIsCorrect(author, result, map)) return AUTHOR_ADD_VIEW;
         serviceAuthor.create(author);
-        return "redirect:/author/list";
+        return "redirect:" + MainController.AUTHOR_ROOT_URL + MainController.SHOW_ALL_ACTION_URL;
     }
     @RequestMapping(value = "/{id}")
     public String readAuthor(@PathVariable("id") Integer id, Map<String, Object> map) {
         map.put(AUTHOR_ATTRIBUTE_NAME, serviceAuthor.getEntityById(id));
         return AUTHOR_INFO_VIEW;
     }
-    @RequestMapping(value = "/edit/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = MainController.EDIT_ACTION_URL + "/{id}", method = RequestMethod.GET)
     public String updateAuthor(@PathVariable("id") Integer id, Map<String, Object> map) {
-        initParameters(map, serviceAuthor.getEntityById(id));
+        initAttributes(map, serviceAuthor.getEntityById(id));
         return AUTHOR_EDIT_VIEW;
     }
-    @RequestMapping(value = "/edit/{id}", method = RequestMethod.POST)
-    public String updateAuthor(@RequestParam(value= BOOKS_LIST_ATTRIBUTE_NAME, required=false) List<Integer> listBook,
+    @RequestMapping(value = MainController.EDIT_ACTION_URL + "/{id}", method = RequestMethod.POST)
+    public String updateAuthor(@RequestParam(value= BOOKS_LIST_ATTRIBUTE_NAME, required=false) List<Integer> listBookIds,
                                @ModelAttribute(AUTHOR_ATTRIBUTE_NAME) @Valid Author author,
                             BindingResult result, Map<String, Object> map) {
         Author oldAuthor = serviceAuthor.getEntityById(author.getId());
-        validator.trim(oldAuthor);
-        author.setBooksList(oldAuthor.getBooksList());
-        author.getBooksList().clear();
-        if (listBook != null) for (int id : listBook) {
-            author.getBooksList().add(new BookAuthor(serviceBook.getEntityById(id), author));
-        }
-        if (result.hasErrors()) {
-            initParameters(map, author);
-            return AUTHOR_EDIT_VIEW;
-        }
-        if (validator.exists(author)) {
-            map.put(WARNING_FOR_EXISTING_AUTHOR_ATTRIBUTE_NAME, true);
-            initParameters(map, author);
-            return AUTHOR_EDIT_VIEW;
-        }
+        initEntityFromAttributes(author, oldAuthor.getBooksList(), listBookIds);
+        if (!dataIsCorrect(author, result, map)) return AUTHOR_EDIT_VIEW;
         serviceAuthor.update(author);
-        return "redirect:/author/" + author.getId();
+        return "redirect:" + MainController.AUTHOR_ROOT_URL + "/" + author.getId();
     }
-    @RequestMapping(value = "/remove/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = MainController.REMOVE_ACTION_URL + "/{id}", method = RequestMethod.GET)
     public String deleteAuthor(@PathVariable("id") Integer id) {
         Author author = serviceAuthor.getEntityById(id);
         author.getBooksList().clear();
         serviceAuthor.update(author);
         serviceAuthor.delete(id);
-        return "redirect:/author/list";
+        return "redirect:" + MainController.AUTHOR_ROOT_URL + MainController.SHOW_ALL_ACTION_URL;
     }
-    private void initParameters(Map<String, Object> map, Author author) {
+    private void initAttributes(Map<String, Object> map, Author author) {
         validator.trim(author);
         map.put(AUTHOR_ATTRIBUTE_NAME, author);
         List<Book> books = new ArrayList<>();
@@ -133,6 +108,26 @@ public class AuthorsController {
         map.put(SELECTED_BOOKS_LIST_ATTRIBUTE_NAME, books);
         map.put(SOURCE_BOOKS_LIST_ATTRIBUTE_NAME, serviceBook.getAll());
     }
+    private void initEntityFromAttributes(Author author, List<BookAuthor> booksList, List<Integer> listBookIds) {
+        author.setBooksList(booksList);
+        author.getBooksList().clear();
+        if (listBookIds != null) for (int id : listBookIds) {
+            author.getBooksList().add(new BookAuthor(serviceBook.getEntityById(id), author));
+        }
+    }
+    private boolean dataIsCorrect(@ModelAttribute(AUTHOR_ATTRIBUTE_NAME) @Valid Author author, BindingResult result, Map<String, Object> map) {
+        if (result.hasErrors()) {
+            initAttributes(map, author);
+            return false;
+        }
+        if (validator.exists(author)) {
+            map.put(WARNING_FOR_EXISTING_AUTHOR_ATTRIBUTE_NAME, true);
+            initAttributes(map, author);
+            return false;
+        }
+        return true;
+    }
+
 
 }
 
