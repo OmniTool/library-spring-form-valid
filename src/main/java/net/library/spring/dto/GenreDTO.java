@@ -12,30 +12,19 @@ public class GenreDTO extends BaseDTO<Genre> {
     private String description;
 
     public GenreDTO() {}
-    public GenreDTO(Genre genre) {
-        setEntity(genre);
-    }
-    public Genre getEntity() {
-        Genre genre = new Genre();
-        genre.setTitle(getTitle());
-        genre.setDescription(getDescription());
-        genre.setId(getId());
-        return genre;
-    }
-    public void setEntity(Genre genre) {
-        setTitle(genre.getTitle());
-        setDescription(genre.getDescription());
-        setId(genre.getId());
-    }
+
     public String getTitle() {
         return title;
     }
+
     public void setTitle(String title) {
         this.title = title;
     }
+
     public String getDescription() {
         return description;
     }
+
     public void setDescription(String description) {
         this.description = description;
     }

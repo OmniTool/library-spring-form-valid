@@ -17,16 +17,16 @@ public abstract class BaseDTO<T extends EntityBase> {
         this.id = id;
     }
 
-    protected List<BookAuthorDTO> getBookAuthorDTOList(List<BookAuthor> listOfBookAuthor) {
-        List<BookAuthorDTO> listOfBookAuthorDTO = new ArrayList<>();
-        for (BookAuthor bookAuthor : listOfBookAuthor) listOfBookAuthorDTO.add(new BookAuthorDTO(bookAuthor));
-        return listOfBookAuthorDTO;
-    }
-    protected List<BookAuthor> getBookAuthorList(List<BookAuthorDTO> listOfBookAuthorDTO) {
-        List<BookAuthor> listOfBookAuthor = new ArrayList<>();
-        for (BookAuthorDTO bookAuthorDTO : listOfBookAuthorDTO) listOfBookAuthor.add(bookAuthorDTO.getEntity());
-        return listOfBookAuthor;
-    }
-    public abstract T getEntity();
-    public abstract void setEntity(T entity);
+//    protected List<BookAuthorDTO> getBookAuthorDTOList(List<BookAuthor> listOfBookAuthor) {
+//        List<BookAuthorDTO> listOfBookAuthorDTO = new ArrayList<>();
+//        for (BookAuthor bookAuthor : listOfBookAuthor) listOfBookAuthorDTO.add(new BookAuthorDTO(bookAuthor));
+//        return listOfBookAuthorDTO;
+//    }
+//    protected List<BookAuthor> getBookAuthorList(List<BookAuthorDTO> listOfBookAuthorDTO) {
+//        List<BookAuthor> listOfBookAuthor = new ArrayList<>();
+//        for (BookAuthorDTO bookAuthorDTO : listOfBookAuthorDTO) listOfBookAuthor.add(bookAuthorDTO.getEntity());
+//        return listOfBookAuthor;
+//    }
+//    public abstract T getEntity();
+//    public abstract void setEntity(T entity);
 }

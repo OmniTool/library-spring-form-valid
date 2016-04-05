@@ -1,45 +1,27 @@
 package net.library.spring.dto;
 
-import net.library.spring.entities.BookAuthor;
-import net.library.spring.entities.EntityBase;
+import net.library.spring.entities.*;
 
 public class BookAuthorDTO extends BaseDTO<BookAuthor> {
 
-    private BookDTO book;
-    private AuthorDTO author;
+    private Integer bookId;
+    private Integer authorId;
 
     public BookAuthorDTO() {}
-    public BookAuthorDTO(BookDTO book, AuthorDTO author) {
-        this.book = book;
-        this.author = author;
-    }
-    public BookAuthorDTO(BookAuthor bookAuthor) {
-        setEntity(bookAuthor);
+
+    public Integer getBookId() {
+        return bookId;
     }
 
-    public BookAuthor getEntity() {
-        BookAuthor bookAuthor = new BookAuthor();
-        bookAuthor.setBook(getBook().getEntity());
-        bookAuthor.setAuthor(getAuthor().getEntity());
-        bookAuthor.setId(getId());
-        return bookAuthor;
-    }
-    public void setEntity(BookAuthor bookAuthor) {
-        setBook(new BookDTO(bookAuthor.getBook()));
-        setAuthor(new AuthorDTO(bookAuthor.getAuthor()));
-        setId(bookAuthor.getId());
+    public void setBookId(Integer bookId) {
+        this.bookId = bookId;
     }
 
-    public BookDTO getBook() {
-        return book;
+    public Integer getAuthorId() {
+        return authorId;
     }
-    public void setBook(BookDTO book) {
-        this.book = book;
-    }
-    public AuthorDTO getAuthor() {
-        return author;
-    }
-    public void setAuthor(AuthorDTO author) {
-        this.author = author;
+
+    public void setAuthorId(Integer authorId) {
+        this.authorId = authorId;
     }
 }

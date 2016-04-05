@@ -6,4 +6,5 @@ import net.library.spring.entities.EntityBase;
 public interface ConverterEntityDTO<E extends EntityBase, D extends BaseDTO> {
 
     D packEntityToDTO (E entity);
+    E unpackEntityFromDTO(D dto);
 }
