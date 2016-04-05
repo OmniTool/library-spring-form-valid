@@ -1,8 +1,8 @@
-package net.library.spring.validators.impl;
+package net.library.spring.utils.validators.impl;
 
-import net.library.spring.dao.DAOBook;
-import net.library.spring.entities.Book;
-import net.library.spring.validators.Validator;
+import net.library.spring.dto.BookDTO;
+import net.library.spring.service.ServiceBook;
+import net.library.spring.utils.validators.Validator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.apache.commons.lang3.StringUtils;
@@ -10,19 +10,18 @@ import org.apache.commons.lang3.StringUtils;
 import java.util.List;
 
 @Component
-public class BookValidator implements Validator<Book> {
+public class BookValidator implements Validator<BookDTO> {
 
-    @Autowired
-    protected DAOBook dao;
+    @Autowired private ServiceBook serviceBook;
 
     @Override
-    public boolean exists(Book book) {
+    public boolean exists(BookDTO book) {
         book = trim(book);
-        List<Book> list = dao.searchEntityByName(book);
+        List<BookDTO> list = serviceBook.searchEntityByName(book);
         String title = book.getTitle().toUpperCase();
         int pubYear = book.getPubYear();
         int genreId = book.getGenre().getId();
-        for (Book bookFound : list) {
+        for (BookDTO bookFound : list) {
             bookFound = trim(bookFound);
             if (bookFound.getTitle().toUpperCase().equals(title)
                     && bookFound.getPubYear()==pubYear
@@ -33,8 +32,8 @@ public class BookValidator implements Validator<Book> {
         return false;
     }
     @Override
-    public Book trim(Book book) {
-        Book bookTrimmed = new Book();
+    public BookDTO trim(BookDTO book) {
+        BookDTO bookTrimmed = new BookDTO();
         bookTrimmed.setTitle(StringUtils.trimToEmpty(book.getTitle()));
         bookTrimmed.setId(book.getId());
         bookTrimmed.setAuthorsList(book.getAuthorsList());

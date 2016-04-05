@@ -1,4 +1,4 @@
-package net.library.spring.util;
+package net.library.spring.utils;
 
 import java.io.*;
 import javax.servlet.*;

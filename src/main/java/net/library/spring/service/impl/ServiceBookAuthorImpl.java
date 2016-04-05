@@ -1,9 +1,10 @@
 package net.library.spring.service.impl;
 
 import net.library.spring.dao.DAOBookAuthor;
-import net.library.spring.dao.impl.DAOBookAuthorImpl;
+import net.library.spring.dto.*;
 import net.library.spring.entities.*;
 import net.library.spring.service.ServiceBookAuthor;
+import net.library.spring.utils.converterDTO.impl.ConverterBookAuthorDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,22 +14,22 @@ import java.util.List;
 
 @Service
 @Transactional
-public class ServiceBookAuthorImpl extends ServiceBase<BookAuthor, DAOBookAuthor> implements ServiceBookAuthor {
+public class ServiceBookAuthorImpl extends ServiceBase<BookAuthorDTO, DAOBookAuthor, BookAuthor> implements ServiceBookAuthor {
 
     @Autowired
-    public ServiceBookAuthorImpl(DAOBookAuthor dao) {
-        super(dao);
+    public ServiceBookAuthorImpl(DAOBookAuthor dao, ConverterBookAuthorDTO converter) {
+        super(dao, converter);
     }
-    public List<Book> searchBooksByAuthor(Author entity) {
-        List<Book> books = new ArrayList<>();
-        for (Book e : getDao().searchBooksByAuthor(entity))
-            books.add(e);
-        return books;
+    public List<BookDTO> searchBooksByAuthor(AuthorDTO author) {
+        List<BookDTO> booksDTO = new ArrayList<>();
+        for (Book book : getDao().searchBooksByAuthor(author.getEntity()))
+            booksDTO.add(new BookDTO(book));
+        return booksDTO;
     }
-    public List<Author> searchAuthorsByBook(Book entity) {
-        List<Author> books = new ArrayList<>();
-        for (Author e : getDao().searchAuthorsByBook(entity))
-            books.add(e);
-        return books;
+    public List<AuthorDTO> searchAuthorsByBook(BookDTO book) {
+        List<AuthorDTO> authorsDTO = new ArrayList<>();
+        for (Author author : getDao().searchAuthorsByBook(book.getEntity()))
+            authorsDTO.add(new AuthorDTO(author));
+        return authorsDTO;
     }
 }

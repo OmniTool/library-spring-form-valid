@@ -1,7 +1,7 @@
 package net.library.spring.service;
 
-import net.library.spring.entities.Author;
+import net.library.spring.dto.AuthorDTO;
 
-public interface ServiceAuthor extends Service<Author, Integer> {
+public interface ServiceAuthor extends Service<AuthorDTO, Integer> {
 
 }

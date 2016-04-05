@@ -1,4 +1,4 @@
-package net.library.spring.validators;
+package net.library.spring.utils.validators;
 
 public interface Validator <E> {
 

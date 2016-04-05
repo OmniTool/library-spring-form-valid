@@ -12,9 +12,6 @@ public class MainController {
     public static final String EDIT_ACTION_URL = "/edit";
     public static final String REMOVE_ACTION_URL = "/remove";
     public static final String SEARCH_ACTION_URL = "/find";
-    public static final String AUTHOR_ROOT_URL = "/author";//
-    public static final String BOOK_ROOT_URL = "/book";//
-    public static final String GENRE_ROOT_URL = "/genre";//
 
     @RequestMapping({"/","/home","index"})
     public String home() {

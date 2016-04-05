@@ -1,8 +1,8 @@
-package net.library.spring.validators.impl;
+package net.library.spring.utils.validators.impl;
 
-import net.library.spring.dao.DAOAuthor;
-import net.library.spring.entities.Author;
-import net.library.spring.validators.Validator;
+import net.library.spring.dto.AuthorDTO;
+import net.library.spring.service.ServiceAuthor;
+import net.library.spring.utils.validators.Validator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.apache.commons.lang3.StringUtils;
@@ -10,20 +10,19 @@ import org.apache.commons.lang3.StringUtils;
 import java.util.List;
 
 @Component
-public class AuthorValidator implements Validator<Author> {
+public class AuthorValidator implements Validator<AuthorDTO> {
 
-    @Autowired
-    protected DAOAuthor dao;
+    @Autowired private ServiceAuthor serviceAuthor;
 
     @Override
-    public boolean exists(Author author) {
+    public boolean exists(AuthorDTO author) {
         author = trim(author);
-        List<Author> list = dao.searchEntityByName(author);
+        List<AuthorDTO> list = serviceAuthor.searchEntityByName(author);
         String firstName = author.getFirstName().toUpperCase();
         String middleName = author.getMiddleName().toUpperCase();
         String secondName = author.getSecondName().toUpperCase();
         int birthYear = author.getBirthYear();
-        for (Author authorFound : list) {
+        for (AuthorDTO authorFound : list) {
             authorFound = trim(authorFound);
             if (authorFound.getFirstName().toUpperCase().equals(firstName)
                     && authorFound.getMiddleName().toUpperCase().equals(middleName)
@@ -35,8 +34,8 @@ public class AuthorValidator implements Validator<Author> {
         return false;
     }
     @Override
-    public Author trim(Author author) {
-        Author authorTrimmed = new Author();
+    public AuthorDTO trim(AuthorDTO author) {
+        AuthorDTO authorTrimmed = new AuthorDTO();
         authorTrimmed.setFirstName(StringUtils.trimToEmpty(author.getFirstName()));
         authorTrimmed.setMiddleName(StringUtils.trimToEmpty(author.getMiddleName()));
         authorTrimmed.setSecondName(StringUtils.trimToEmpty(author.getSecondName()));

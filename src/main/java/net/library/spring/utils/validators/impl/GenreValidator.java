@@ -1,8 +1,8 @@
-package net.library.spring.validators.impl;
+package net.library.spring.utils.validators.impl;
 
-import net.library.spring.dao.DAOGenre;
-import net.library.spring.entities.Genre;
-import net.library.spring.validators.Validator;
+import net.library.spring.dto.GenreDTO;
+import net.library.spring.service.ServiceGenre;
+import net.library.spring.utils.validators.Validator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.apache.commons.lang3.StringUtils;
@@ -10,17 +10,16 @@ import org.apache.commons.lang3.StringUtils;
 import java.util.List;
 
 @Component
-public class GenreValidator implements Validator<Genre> {
+public class GenreValidator implements Validator<GenreDTO> {
 
-    @Autowired
-    protected DAOGenre dao;
+    @Autowired private ServiceGenre serviceGenre;
 
     @Override
-    public boolean exists(Genre genre) {
+    public boolean exists(GenreDTO genre) {
         genre = trim(genre);
-        List<Genre> list = dao.searchEntityByName(genre);
+        List<GenreDTO> list = serviceGenre.searchEntityByName(genre);
         String title = genre.getTitle().toUpperCase();
-        for (Genre genreFound : list) {
+        for (GenreDTO genreFound : list) {
             genreFound = trim(genreFound);
             if (genreFound.getTitle().toUpperCase().equals(title)
                     && genreFound.getId() != genre.getId())
@@ -29,8 +28,8 @@ public class GenreValidator implements Validator<Genre> {
         return false;
     }
     @Override
-    public Genre trim(Genre genre) {
-        Genre genreTrimmed = new Genre();
+    public GenreDTO trim(GenreDTO genre) {
+        GenreDTO genreTrimmed = new GenreDTO();
         genreTrimmed.setTitle(StringUtils.trimToEmpty(genre.getTitle()));
         genreTrimmed.setDescription(StringUtils.trimToEmpty(genre.getDescription()));
         genreTrimmed.setId(genre.getId());

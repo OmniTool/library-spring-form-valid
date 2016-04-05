@@ -25,10 +25,10 @@
     <file url="file://$PROJECT_DIR$/src/main/java/net/library/spring/service/impl/ServiceBookAuthorImpl.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/java/net/library/spring/service/impl/ServiceBookImpl.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/java/net/library/spring/service/impl/ServiceGenreImpl.java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/src/main/java/net/library/spring/validators/Validator.java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/src/main/java/net/library/spring/validators/impl/AuthorValidator.java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/src/main/java/net/library/spring/validators/impl/BookValidator.java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/src/main/java/net/library/spring/validators/impl/GenreValidator.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/java/net/library/spring/utils/validators/Validator.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/java/net/library/spring/utils/validators/impl/AuthorValidator.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/java/net/library/spring/utils/validators/impl/BookValidator.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/java/net/library/spring/utils/validators/impl/GenreValidator.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/addauthor.jsp" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/addbook.jsp" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/addgenre.jsp" charset="UTF-8" />
@@ -39,9 +39,6 @@
     <file url="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/editauthor.jsp" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/editbook.jsp" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/editgenre.jsp" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/findauthorbyname.jsp" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/findbookbyname.jsp" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/findgenrebyname.jsp" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/genreinfo.jsp" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/genrelist.jsp" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/index.jsp" charset="UTF-8" />
