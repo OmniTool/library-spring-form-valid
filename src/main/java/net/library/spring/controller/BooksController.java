@@ -99,7 +99,7 @@ public class BooksController {
         return "redirect:" + MainController.BOOK_ROOT_URL + MainController.SHOW_ALL_ACTION_URL;
     }
     private void initAttributes(Map<String, Object> map, Book book) {
-        validator.trim(book);
+        book = validator.trim(book);
         map.put(BOOK_ATTRIBUTE_NAME, book);
         List<Author> authors = new ArrayList<>();
         for (BookAuthor bookAuthor : book.getAuthorsList())

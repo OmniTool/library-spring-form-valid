@@ -101,7 +101,7 @@ public class AuthorsController {
         return "redirect:" + MainController.AUTHOR_ROOT_URL + MainController.SHOW_ALL_ACTION_URL;
     }
     private void initAttributes(Map<String, Object> map, Author author) {
-        validator.trim(author);
+        author = validator.trim(author);
         map.put(AUTHOR_ATTRIBUTE_NAME, author);
         List<Book> books = new ArrayList<>();
         for (BookAuthor bookAuthor : author.getBooksList())

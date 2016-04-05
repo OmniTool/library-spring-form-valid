@@ -22,7 +22,6 @@ public class Author extends EntityBase {
     @Size(max=64, message="Отчество: до 64 символов")
     private String middleName;
     @Basic @Column(name = "birth_year")
-//    @Pattern(regexp = "-?\\d{4}", message = "Год: 4 цифры (отрицательное значение для года до н.э.)")
     private Integer birthYear;
     @Basic @Column(name = "biography")
     @Size(max=400, message="Биография: до 400 символов")
