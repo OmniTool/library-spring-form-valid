@@ -67,27 +67,4 @@ public class Author extends EntityBase {
     public void setBiography(String biography) {
         this.biography = biography;
     }
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Author authors = (Author) o;
-        if (secondName != null ? !secondName.equals(authors.secondName) : authors.secondName != null) return false;
-        if (firstName != null ? !firstName.equals(authors.firstName) : authors.firstName != null) return false;
-        if (middleName != null ? !middleName.equals(authors.middleName) : authors.middleName != null) return false;
-        if (birthYear != null ? !birthYear.equals(authors.birthYear) : authors.birthYear != null) return false;
-        if (biography != null ? !biography.equals(authors.biography) : authors.biography != null) return false;
-        return true;
-    }
-    @Override
-    public int hashCode() {
-        int result = 31;
-        result = 31 * result + (secondName != null ? secondName.hashCode() : 0);
-        result = 31 * result + (firstName != null ? firstName.hashCode() : 0);
-        result = 31 * result + (middleName != null ? middleName.hashCode() : 0);
-        result = 31 * result + (birthYear != null ? birthYear.hashCode() : 0);
-        result = 31 * result + (biography != null ? biography.hashCode() : 0);
-        return result;
-    }
-
 }
