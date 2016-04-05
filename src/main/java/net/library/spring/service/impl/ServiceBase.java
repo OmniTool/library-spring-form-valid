@@ -37,7 +37,7 @@ public class ServiceBase<T extends BaseDTO, D extends DAO, E extends EntityBase>
     }
 
     public void delete(Integer id) {
-        T entity = (T) dao.getEntityById(id);
+        E entity = (E) dao.getEntityById(id);
         dao.delete(entity);
     }
 
