@@ -21,7 +21,7 @@ public class AuthorValidator implements Validator<AuthorDTO> {
         String firstName = author.getFirstName().toUpperCase();
         String middleName = author.getMiddleName().toUpperCase();
         String secondName = author.getSecondName().toUpperCase();
-        int birthYear = author.getBirthYear();
+        Integer birthYear = author.getBirthYear();
         for (AuthorDTO authorFound : list) {
             authorFound = trim(authorFound);
             if (authorFound.getFirstName().toUpperCase().equals(firstName)

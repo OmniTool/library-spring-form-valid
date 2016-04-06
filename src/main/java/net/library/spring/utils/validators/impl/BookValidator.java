@@ -19,8 +19,8 @@ public class BookValidator implements Validator<BookDTO> {
         book = trim(book);
         List<BookDTO> list = serviceBook.searchEntityByName(book);
         String title = book.getTitle().toUpperCase();
-        int pubYear = book.getPubYear();
-        int genreId = book.getGenreId();
+        Integer pubYear = book.getPubYear();
+        Integer genreId = book.getGenreId();
         for (BookDTO bookFound : list) {
             bookFound = trim(bookFound);
             if (bookFound.getTitle().toUpperCase().equals(title)

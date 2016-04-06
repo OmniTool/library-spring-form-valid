@@ -17,4 +17,12 @@ public class ServiceAuthorImpl extends ServiceBase<AuthorDTO, DAOAuthor, Author>
     public ServiceAuthorImpl(DAOAuthor dao, ConverterAuthorDTO converter) {
         super(dao, converter);
     }
+
+//    @Override
+//    public void delete(Integer id) {
+//        Author author = getDao().getEntityById(id); //TODO повторить в ServiceBookImpl
+//        author.getBooksList().clear();
+//        getDao().update(author);
+//        getDao().delete(author);
+//    }
 }

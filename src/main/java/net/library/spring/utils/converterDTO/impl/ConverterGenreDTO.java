@@ -15,6 +15,7 @@ public class ConverterGenreDTO implements ConverterEntityDTO<Genre, GenreDTO> {
     @Override
     public GenreDTO packEntityToDTO(Genre genre) {
         GenreDTO genreDTO = new GenreDTO();
+        if (genre == null) return genreDTO;
         genreDTO.setTitle(genre.getTitle());
         genreDTO.setDescription(genre.getDescription());
         genreDTO.setId(genre.getId());

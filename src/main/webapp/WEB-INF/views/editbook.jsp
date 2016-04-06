@@ -40,7 +40,7 @@
                 <c:forEach var="opt" items="${sourceListGenre}">
                     <p>
                         <c:set var="optionId" scope="session" value="${opt.id}"/>
-                        <c:set var="targetId" scope="session" value="${entity.genre.id}"/>
+                        <c:set var="targetId" scope="session" value="${entity.genreId}"/>
                         <c:choose>
                             <c:when test="${optionId==targetId}">
                                 <option selected value="${opt.id}">${opt.title}</option>

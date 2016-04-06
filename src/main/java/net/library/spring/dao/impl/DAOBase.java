@@ -13,7 +13,7 @@ import java.util.List;
 @Transactional
 public class DAOBase<T extends EntityBase> {
 
-    Class<T> type;
+    protected Class<T> type;
     @Autowired
     private SessionFactory sessionFactory;
 

@@ -6,6 +6,7 @@ import net.library.spring.dao.DAOGenre;
 import net.library.spring.dto.BookDTO;
 import net.library.spring.entities.Book;
 import net.library.spring.entities.BookAuthor;
+import net.library.spring.entities.Genre;
 import net.library.spring.utils.converterDTO.ConverterEntityDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -25,7 +26,8 @@ public class ConverterBookDTO implements ConverterEntityDTO<Book, BookDTO> {
         BookDTO bookDTO = new BookDTO();
         bookDTO.setTitle(book.getTitle());
         bookDTO.setPubYear(book.getPubYear());
-        bookDTO.setGenreId(book.getGenre().getId());
+        Genre genre = book.getGenre();
+        bookDTO.setGenreId(genre != null ? genre.getId() : 0);
         bookDTO.setAuthorsIdList(bookAuthorlistToIdList(book.getAuthorsList()));
         bookDTO.setId(book.getId());
         return bookDTO;
@@ -33,16 +35,22 @@ public class ConverterBookDTO implements ConverterEntityDTO<Book, BookDTO> {
     @Override
     public Book unpackEntityFromDTO(BookDTO bookDTO) {
         int id = bookDTO.getId();
-        Book book = (id == 0) ? new Book() : daoBook.getEntityById(id);
+        Book book;
+        if (id == 0) {
+            book = new Book();
+        } else {
+            book = daoBook.getEntityById(id);
+            book.getAuthorsList().clear();
+        }
+        book.setGenre(daoGenre.getEntityById(bookDTO.getGenreId()));
         book.setTitle(bookDTO.getTitle());
         book.setPubYear(bookDTO.getPubYear());
-        book.getAuthorsList().clear();
         book.setAuthorsList(idListToBookAuthorList(bookDTO.getAuthorsIdList(), book));
-        book.setGenre(daoGenre.getEntityById(bookDTO.getGenreId()));
         return book;
     }
     private List<BookAuthor> idListToBookAuthorList (List<Integer> idList, Book book) {
-        List<BookAuthor> bookAuthorList = new ArrayList<>();
+        List<BookAuthor> bookAuthorListFromDB = book.getAuthorsList();
+        List<BookAuthor> bookAuthorList = bookAuthorListFromDB == null ? new ArrayList<BookAuthor>() : bookAuthorListFromDB;
         if (idList != null) for (int authorId : idList) {
             BookAuthor bookAuthor = new BookAuthor(book, daoAuthor.getEntityById(authorId));
             bookAuthorList.add(bookAuthor);

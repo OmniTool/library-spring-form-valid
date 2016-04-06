@@ -65,7 +65,7 @@ public class AuthorsController {
     public String createAuthor(@RequestParam(value= BOOKS_LIST_ATTRIBUTE_NAME, required=false) List<Integer> listBookIds,
                                @ModelAttribute(AUTHOR_ATTRIBUTE_NAME) @Valid AuthorDTO author,
                              BindingResult result, Map<String, Object> map) {
-        initEntityFromAttributes(author, listBookIds);
+        author = initEntityFromAttributes(author, listBookIds);
         if (!dataIsCorrect(author, result, map)) return AUTHOR_ADD_VIEW;
         serviceAuthor.create(author);
         return "redirect:" + AuthorsController.AUTHOR_ROOT_URL + MainController.SHOW_ALL_ACTION_URL;
@@ -84,7 +84,6 @@ public class AuthorsController {
     public String updateAuthor(@RequestParam(value= BOOKS_LIST_ATTRIBUTE_NAME, required=false) List<Integer> listBookIds,
                                @ModelAttribute(AUTHOR_ATTRIBUTE_NAME) @Valid AuthorDTO author,
                             BindingResult result, Map<String, Object> map) {
-//        AuthorDTO oldAuthor = serviceAuthor.getEntityById(author.getId()); //TODO
         author = initEntityFromAttributes(author, listBookIds);
         if (!dataIsCorrect(author, result, map)) return AUTHOR_EDIT_VIEW;
         serviceAuthor.update(author);
@@ -92,9 +91,9 @@ public class AuthorsController {
     }
     @RequestMapping(value = MainController.REMOVE_ACTION_URL + "/{id}", method = RequestMethod.GET)
     public String deleteAuthor(@PathVariable("id") Integer id) {
-        AuthorDTO author = serviceAuthor.getEntityById(id); //TODO
-        author.getBooksIdList().clear();
-        serviceAuthor.update(author);
+//        AuthorDTO author = serviceAuthor.getEntityById(id); //TODO delete comments
+//        author.getBooksIdList().clear();
+//        serviceAuthor.update(author);
         serviceAuthor.delete(id);
         return "redirect:" + AuthorsController.AUTHOR_ROOT_URL + MainController.SHOW_ALL_ACTION_URL;
     }
@@ -102,7 +101,7 @@ public class AuthorsController {
         author = validator.trim(author);
         map.put(AUTHOR_ATTRIBUTE_NAME, author);
         List<BookDTO> books = new ArrayList<>();
-        for (Integer bookId : author.getBooksIdList()) { //TODO заменить букавторс в цикле и в бук контроллере
+        for (Integer bookId : author.getBooksIdList()) {
             books.add(serviceBook.getEntityById(bookId));
         }
         map.put(SELECTED_BOOKS_LIST_ATTRIBUTE_NAME, books);

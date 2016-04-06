@@ -1,7 +1,11 @@
 package net.library.spring.controller;
 
-import net.library.spring.dto.*;
-import net.library.spring.service.*;
+import net.library.spring.dto.AuthorDTO;
+import net.library.spring.dto.BookDTO;
+import net.library.spring.service.ServiceAuthor;
+import net.library.spring.service.ServiceBook;
+import net.library.spring.service.ServiceBookAuthor;
+import net.library.spring.service.ServiceGenre;
 import net.library.spring.utils.validators.Validator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -62,7 +66,7 @@ public class BooksController {
                              @RequestParam(value= AUTHORS_LIST_ATTRIBUTE_NAME, required=false) List<Integer> listAuthorIds,
                             @ModelAttribute(BOOK_ATTRIBUTE_NAME) @Valid BookDTO book,
                              BindingResult result, Map<String, Object> map) {
-        initEntityFromAttributes(book, listAuthorIds, genereId);
+        book = initEntityFromAttributes(book, listAuthorIds, genereId);
         if (!dataIsCorrect(book, result, map)) return BOOK_ADD_VIEW;
         serviceBook.create(book);
         return "redirect:" + BooksController.BOOK_ROOT_URL + MainController.SHOW_ALL_ACTION_URL;
@@ -82,15 +86,14 @@ public class BooksController {
                              @RequestParam(value= AUTHORS_LIST_ATTRIBUTE_NAME, required=false) List<Integer> listAuthorIds,
                              @ModelAttribute(BOOK_ATTRIBUTE_NAME) @Valid BookDTO book,
                             BindingResult result, Map<String, Object> map) {
-//        BookDTO oldBook = serviceBook.getEntityById(book.getId()); //TODO
-        initEntityFromAttributes(book, listAuthorIds, genereId);
+        book = initEntityFromAttributes(book, listAuthorIds, genereId);
         if (!dataIsCorrect(book, result, map)) return BOOK_EDIT_VIEW;
         serviceBook.update(book);
         return "redirect:" + BooksController.BOOK_ROOT_URL + "/" + book.getId();
     }
     @RequestMapping(value = MainController.REMOVE_ACTION_URL + "/{id}", method = RequestMethod.GET)
     public String deleteBook(@PathVariable("id") Integer id) {
-        BookDTO book = serviceBook.getEntityById(id); //TODO
+        BookDTO book = serviceBook.getEntityById(id);
         book.getAuthorsIdList().clear();
         serviceBook.update(book);
         serviceBook.delete(id);
@@ -126,5 +129,6 @@ public class BooksController {
         }
         return true;
     }
+
 }
 

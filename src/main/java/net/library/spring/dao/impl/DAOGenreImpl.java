@@ -1,7 +1,8 @@
 package net.library.spring.dao.impl;
 
 import net.library.spring.dao.DAOGenre;
-import net.library.spring.entities.*;
+import net.library.spring.entities.Genre;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,10 +20,9 @@ public class DAOGenreImpl extends DAOBase<Genre> implements DAOGenre {
     public List<Genre> searchEntityByName(Genre entity) {
         List<Genre> entities = new ArrayList<>();
         if (entity == null) return entities;
-            entities = currentSession().createQuery("FROM " + type.getSimpleName() +
-                    " e WHERE upper(e.title) LIKE upper(:title)")
-                    .setParameter("title", "%" + entity.getTitle() + "%")
-                    .list();
+        entities = currentSession().createCriteria(type)
+                .add(Restrictions.like("title", "%" + entity.getTitle() + "%").ignoreCase()) //TODO добавление в цикле из мапы + вынести в базовый класс
+                .list();
         return entities;
     }
 
