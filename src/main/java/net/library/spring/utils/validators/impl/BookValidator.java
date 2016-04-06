@@ -20,12 +20,12 @@ public class BookValidator implements Validator<BookDTO> {
         List<BookDTO> list = serviceBook.searchEntityByName(book);
         String title = book.getTitle().toUpperCase();
         int pubYear = book.getPubYear();
-        int genreId = book.getGenre().getId();
+        int genreId = book.getGenreId();
         for (BookDTO bookFound : list) {
             bookFound = trim(bookFound);
             if (bookFound.getTitle().toUpperCase().equals(title)
                     && bookFound.getPubYear()==pubYear
-                    && bookFound.getGenre().getId()==genreId
+                    && bookFound.getGenreId()==genreId
                     && bookFound.getId() != book.getId())
                 return true;
         }
@@ -36,8 +36,8 @@ public class BookValidator implements Validator<BookDTO> {
         BookDTO bookTrimmed = new BookDTO();
         bookTrimmed.setTitle(StringUtils.trimToEmpty(book.getTitle()));
         bookTrimmed.setId(book.getId());
-        bookTrimmed.setAuthorsList(book.getAuthorsList());
-        bookTrimmed.setGenre(book.getGenre());
+        bookTrimmed.setAuthorsIdList(book.getAuthorsIdList());
+        bookTrimmed.setGenreId(book.getGenreId());
         bookTrimmed.setPubYear(book.getPubYear());
         return bookTrimmed;
     }

@@ -1,8 +1,7 @@
 package net.library.spring.controller;
 
 import net.library.spring.dto.*;
-import net.library.spring.service.ServiceAuthor;
-import net.library.spring.service.ServiceBook;
+import net.library.spring.service.*;
 import net.library.spring.utils.validators.Validator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -35,6 +34,7 @@ public class AuthorsController {
 
     @Autowired private ServiceAuthor serviceAuthor;
     @Autowired private ServiceBook serviceBook;
+    @Autowired private ServiceBookAuthor serviceBookAuthor;
     @Autowired private Validator<AuthorDTO> validator;
 
     @RequestMapping(MainController.SHOW_ALL_ACTION_URL)
@@ -65,14 +65,14 @@ public class AuthorsController {
     public String createAuthor(@RequestParam(value= BOOKS_LIST_ATTRIBUTE_NAME, required=false) List<Integer> listBookIds,
                                @ModelAttribute(AUTHOR_ATTRIBUTE_NAME) @Valid AuthorDTO author,
                              BindingResult result, Map<String, Object> map) {
-        initEntityFromAttributes(author, new ArrayList<BookAuthorDTO>(), listBookIds);
+        initEntityFromAttributes(author, listBookIds);
         if (!dataIsCorrect(author, result, map)) return AUTHOR_ADD_VIEW;
         serviceAuthor.create(author);
         return "redirect:" + AuthorsController.AUTHOR_ROOT_URL + MainController.SHOW_ALL_ACTION_URL;
     }
     @RequestMapping(value = "/{id}")
     public String readAuthor(@PathVariable("id") Integer id, Map<String, Object> map) {
-        map.put(AUTHOR_ATTRIBUTE_NAME, serviceAuthor.getEntityById(id));
+        initAttributes(map, serviceAuthor.getEntityById(id));
         return AUTHOR_INFO_VIEW;
     }
     @RequestMapping(value = MainController.EDIT_ACTION_URL + "/{id}", method = RequestMethod.GET)
@@ -84,16 +84,16 @@ public class AuthorsController {
     public String updateAuthor(@RequestParam(value= BOOKS_LIST_ATTRIBUTE_NAME, required=false) List<Integer> listBookIds,
                                @ModelAttribute(AUTHOR_ATTRIBUTE_NAME) @Valid AuthorDTO author,
                             BindingResult result, Map<String, Object> map) {
-        AuthorDTO oldAuthor = serviceAuthor.getEntityById(author.getId());
-        initEntityFromAttributes(author, oldAuthor.getBooksList(), listBookIds);
+//        AuthorDTO oldAuthor = serviceAuthor.getEntityById(author.getId()); //TODO
+        author = initEntityFromAttributes(author, listBookIds);
         if (!dataIsCorrect(author, result, map)) return AUTHOR_EDIT_VIEW;
         serviceAuthor.update(author);
         return "redirect:" + AuthorsController.AUTHOR_ROOT_URL + "/" + author.getId();
     }
     @RequestMapping(value = MainController.REMOVE_ACTION_URL + "/{id}", method = RequestMethod.GET)
     public String deleteAuthor(@PathVariable("id") Integer id) {
-        AuthorDTO author = serviceAuthor.getEntityById(id);
-        author.getBooksList().clear();
+        AuthorDTO author = serviceAuthor.getEntityById(id); //TODO
+        author.getBooksIdList().clear();
         serviceAuthor.update(author);
         serviceAuthor.delete(id);
         return "redirect:" + AuthorsController.AUTHOR_ROOT_URL + MainController.SHOW_ALL_ACTION_URL;
@@ -102,17 +102,16 @@ public class AuthorsController {
         author = validator.trim(author);
         map.put(AUTHOR_ATTRIBUTE_NAME, author);
         List<BookDTO> books = new ArrayList<>();
-        for (BookAuthorDTO bookAuthor : author.getBooksList())
-            books.add(bookAuthor.getBook());
+        for (Integer bookId : author.getBooksIdList()) { //TODO заменить букавторс в цикле и в бук контроллере
+            books.add(serviceBook.getEntityById(bookId));
+        }
         map.put(SELECTED_BOOKS_LIST_ATTRIBUTE_NAME, books);
         map.put(SOURCE_BOOKS_LIST_ATTRIBUTE_NAME, serviceBook.getAll());
     }
-    private void initEntityFromAttributes(AuthorDTO author, List<BookAuthorDTO> booksList, List<Integer> listBookIds) {
-        author.setBooksList(booksList);
-        author.getBooksList().clear();
-        if (listBookIds != null) for (int id : listBookIds) {
-            author.getBooksList().add(new BookAuthorDTO(serviceBook.getEntityById(id), author));
-        }
+    private AuthorDTO initEntityFromAttributes(AuthorDTO author, List<Integer> booksIdList) {
+        author = validator.trim(author);
+        author.setBooksIdList(booksIdList);
+        return author;
     }
     private boolean dataIsCorrect(@ModelAttribute(AUTHOR_ATTRIBUTE_NAME) @Valid AuthorDTO author, BindingResult result, Map<String, Object> map) {
         if (result.hasErrors()) {

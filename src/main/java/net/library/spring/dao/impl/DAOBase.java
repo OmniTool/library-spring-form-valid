@@ -32,7 +32,8 @@ public class DAOBase<T extends EntityBase> {
     }
     
     public T getEntityById(Integer id) {
-        return (T) currentSession().get(type, id);
+        T entity = (T) currentSession().get(type, id);
+        return entity;
     }
     
     public void update(T entity) {

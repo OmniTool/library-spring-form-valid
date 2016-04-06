@@ -59,4 +59,38 @@ public class Author extends EntityBase {
     public void setBiography(String biography) {
         this.biography = biography;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Author)) return false;
+        if (!super.equals(o)) return false;
+
+        Author author = (Author) o;
+
+        if (getSecondName() != null ? !getSecondName().equals(author.getSecondName()) : author.getSecondName() != null)
+            return false;
+        if (getFirstName() != null ? !getFirstName().equals(author.getFirstName()) : author.getFirstName() != null)
+            return false;
+        if (getMiddleName() != null ? !getMiddleName().equals(author.getMiddleName()) : author.getMiddleName() != null)
+            return false;
+        if (getBirthYear() != null ? !getBirthYear().equals(author.getBirthYear()) : author.getBirthYear() != null)
+            return false;
+        if (getBiography() != null ? !getBiography().equals(author.getBiography()) : author.getBiography() != null)
+            return false;
+        return !(getBooksList() != null ? !getBooksList().equals(author.getBooksList()) : author.getBooksList() != null);
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = super.hashCode();
+        result = 31 * result + (getSecondName() != null ? getSecondName().hashCode() : 0);
+        result = 31 * result + (getFirstName() != null ? getFirstName().hashCode() : 0);
+        result = 31 * result + (getMiddleName() != null ? getMiddleName().hashCode() : 0);
+        result = 31 * result + (getBirthYear() != null ? getBirthYear().hashCode() : 0);
+        result = 31 * result + (getBiography() != null ? getBiography().hashCode() : 0);
+        result = 31 * result + (getBooksList() != null ? getBooksList().hashCode() : 0);
+        return result;
+    }
 }

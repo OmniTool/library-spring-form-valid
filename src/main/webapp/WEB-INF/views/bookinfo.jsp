@@ -31,12 +31,12 @@
         <p ><h3 class="centred">Год публикации</h3></p>
     <p class="centred">${entity.pubYear}</p>
     <p class="topspace"><h3 class="centred">Жанр</h3></p>
-    <p class="centred"><a href="/genre/${entity.genre.id}" class="content">${entity.genre.title}</a></p>
+    <p class="centred"><a href="/genre/${currentGenre.id}" class="content">${currentGenre.title}</a></p>
     <p class="topspace"><h3 class="centred">Авторы</h3></p>
     <p class="centred">
-        <c:forEach var="item" items="${entity.authorsList}">
+        <c:forEach var="item" items="${currentListAuthor}">
             <p class="centred">
-                <a href="/author/${item.author.id}" class="content">${item.author.firstName} ${item.author.middleName} ${item.author.secondName}</a>
+                <a href="/author/${item.id}" class="content">${item.firstName} ${item.middleName} ${item.secondName}</a>
             </p>
         </c:forEach>
     </p>

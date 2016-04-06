@@ -1,9 +1,7 @@
 package net.library.spring.controller;
 
 import net.library.spring.dto.*;
-import net.library.spring.service.ServiceAuthor;
-import net.library.spring.service.ServiceBook;
-import net.library.spring.service.ServiceGenre;
+import net.library.spring.service.*;
 import net.library.spring.utils.validators.Validator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -31,11 +29,13 @@ public class BooksController {
     private static final String SOURCE_AUTHORS_LIST_ATTRIBUTE_NAME = "sourceListAuthor";
     private static final String SOURCE_GENRES_LIST_ATTRIBUTE_NAME = "sourceListGenre";
     private static final String SELECTED_AUTHORS_LIST_ATTRIBUTE_NAME = "currentListAuthor";
+    private static final String SELECTED_GENRE_ATTRIBUTE_NAME = "currentGenre";
     public static final String AUTHORS_LIST_ATTRIBUTE_NAME = "listAuthor";
     public static final String GENERE_ID_ATTRIBUTE_NAME = "genereId";
     @Autowired private ServiceBook serviceBook;
     @Autowired private ServiceAuthor serviceAuthor;
     @Autowired private ServiceGenre serviceGenre;
+    @Autowired private ServiceBookAuthor serviceBookAuthor;
     @Autowired private Validator<BookDTO> validator;
 
     @RequestMapping(MainController.SHOW_ALL_ACTION_URL)
@@ -62,14 +62,14 @@ public class BooksController {
                              @RequestParam(value= AUTHORS_LIST_ATTRIBUTE_NAME, required=false) List<Integer> listAuthorIds,
                             @ModelAttribute(BOOK_ATTRIBUTE_NAME) @Valid BookDTO book,
                              BindingResult result, Map<String, Object> map) {
-        initEntityFromAttributes(book, new ArrayList<BookAuthorDTO>(), listAuthorIds, genereId);
+        initEntityFromAttributes(book, listAuthorIds, genereId);
         if (!dataIsCorrect(book, result, map)) return BOOK_ADD_VIEW;
         serviceBook.create(book);
         return "redirect:" + BooksController.BOOK_ROOT_URL + MainController.SHOW_ALL_ACTION_URL;
     }
     @RequestMapping(value = "/{id}")
     public String readBook(@PathVariable("id") Integer id, Map<String, Object> map) {
-        map.put(BOOK_ATTRIBUTE_NAME, serviceBook.getEntityById(id));
+        initAttributes(map, serviceBook.getEntityById(id));
         return BOOK_INFO_VIEW;
     }
     @RequestMapping(value = MainController.EDIT_ACTION_URL + "/{id}", method = RequestMethod.GET)
@@ -82,16 +82,16 @@ public class BooksController {
                              @RequestParam(value= AUTHORS_LIST_ATTRIBUTE_NAME, required=false) List<Integer> listAuthorIds,
                              @ModelAttribute(BOOK_ATTRIBUTE_NAME) @Valid BookDTO book,
                             BindingResult result, Map<String, Object> map) {
-        BookDTO oldBook = serviceBook.getEntityById(book.getId());
-        initEntityFromAttributes(book, oldBook.getAuthorsList(), listAuthorIds, genereId);
+//        BookDTO oldBook = serviceBook.getEntityById(book.getId()); //TODO
+        initEntityFromAttributes(book, listAuthorIds, genereId);
         if (!dataIsCorrect(book, result, map)) return BOOK_EDIT_VIEW;
         serviceBook.update(book);
         return "redirect:" + BooksController.BOOK_ROOT_URL + "/" + book.getId();
     }
     @RequestMapping(value = MainController.REMOVE_ACTION_URL + "/{id}", method = RequestMethod.GET)
     public String deleteBook(@PathVariable("id") Integer id) {
-        BookDTO book = serviceBook.getEntityById(id);
-        book.getAuthorsList().clear();
+        BookDTO book = serviceBook.getEntityById(id); //TODO
+        book.getAuthorsIdList().clear();
         serviceBook.update(book);
         serviceBook.delete(id);
         return "redirect:" + BooksController.BOOK_ROOT_URL + MainController.SHOW_ALL_ACTION_URL;
@@ -100,20 +100,19 @@ public class BooksController {
         book = validator.trim(book);
         map.put(BOOK_ATTRIBUTE_NAME, book);
         List<AuthorDTO> authors = new ArrayList<>();
-        for (BookAuthorDTO bookAuthor : book.getAuthorsList())
-            authors.add(bookAuthor.getAuthor());
+        for (Integer authorId : book.getAuthorsIdList()) {
+            authors.add(serviceAuthor.getEntityById(authorId));
+        }
         map.put(SELECTED_AUTHORS_LIST_ATTRIBUTE_NAME, authors);
+        map.put(SELECTED_GENRE_ATTRIBUTE_NAME, serviceGenre.getEntityById(book.getGenreId()));
         map.put(SOURCE_AUTHORS_LIST_ATTRIBUTE_NAME, serviceAuthor.getAll());
         map.put(SOURCE_GENRES_LIST_ATTRIBUTE_NAME, serviceGenre.getAll());
     }
-    private void initEntityFromAttributes(BookDTO book, List<BookAuthorDTO> authorsList, List<Integer> listAuthorIds, int genereId) {
-        GenreDTO genre = serviceGenre.getEntityById(genereId);
-        book.setGenre(genre);
-        book.setAuthorsList(authorsList);
-        book.getAuthorsList().clear();
-        if (listAuthorIds != null) for (int id : listAuthorIds) {
-            book.getAuthorsList().add(new BookAuthorDTO(book, serviceAuthor.getEntityById(id)));
-        }
+    private BookDTO initEntityFromAttributes(BookDTO book, List<Integer> authorsIdList, int genereId) {
+        book = validator.trim(book);
+        book.setGenreId(genereId);
+        book.setAuthorsIdList(authorsIdList);
+        return book;
     }
     private boolean dataIsCorrect(@ModelAttribute(BOOK_ATTRIBUTE_NAME) @Valid BookDTO book, BindingResult result, Map<String, Object> map) {
         if (result.hasErrors()) {

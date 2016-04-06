@@ -33,9 +33,9 @@
     <p class="centred content">${entity.biography}</p>
     <p class="topspace"><h3 class="centred">Книги</h3></p>
     <p class="centred">
-        <c:forEach var="item" items="${entity.booksList}">
+        <c:forEach var="item" items="${currentListBook}">
     <p class="centred">
-        <a href="/book/${item.book.id}" class="content">${item.book.title}</a>
+        <a href="/book/${item.id}" class="content">${item.title}</a>
     </p>
     </c:forEach>
     </p>

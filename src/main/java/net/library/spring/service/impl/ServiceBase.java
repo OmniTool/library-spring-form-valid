@@ -29,11 +29,12 @@ public class ServiceBase<T extends BaseDTO, D extends DAO, E extends EntityBase>
 
     public T getEntityById(Integer id) {
         E entity = (E) dao.getEntityById(id);
-        return converterDTO.packEntityToDTO(entity);
+        T entityDto = converterDTO.packEntityToDTO(entity);
+        return entityDto;
     }
 
     public void update(T entityDTO) {
-        dao.update(entityDTO.getEntity());
+        dao.update(converterDTO.unpackEntityFromDTO(entityDTO));
     }
 
     public void delete(Integer id) {
@@ -42,17 +43,20 @@ public class ServiceBase<T extends BaseDTO, D extends DAO, E extends EntityBase>
     }
 
     public int create(T entityDTO) {
-        return dao.create(entityDTO.getEntity());
+        return dao.create(converterDTO.unpackEntityFromDTO(entityDTO));
     }
 
     public List<T> searchEntityByName(T entityDTO) {
         List<T> listOfDTOs = new ArrayList<>();
-        List<E> listOfEntities = dao.searchEntityByName(entityDTO.getEntity());
+        List<E> listOfEntities = dao.searchEntityByName(converterDTO.unpackEntityFromDTO(entityDTO));
         for (E entity : listOfEntities) listOfDTOs.add(converterDTO.packEntityToDTO(entity));
         return listOfDTOs;
     }
 
     protected D getDao() {
         return dao;
+    }
+    public ConverterEntityDTO<E, T> getConverterDTO() {
+        return converterDTO;
     }
 }

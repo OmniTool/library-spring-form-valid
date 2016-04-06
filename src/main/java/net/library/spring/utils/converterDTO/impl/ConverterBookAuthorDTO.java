@@ -1,6 +1,8 @@
 package net.library.spring.utils.converterDTO.impl;
 
-import net.library.spring.dao.*;
+import net.library.spring.dao.DAOAuthor;
+import net.library.spring.dao.DAOBook;
+import net.library.spring.dao.DAOBookAuthor;
 import net.library.spring.dto.BookAuthorDTO;
 import net.library.spring.entities.BookAuthor;
 import net.library.spring.utils.converterDTO.ConverterEntityDTO;
@@ -26,8 +28,8 @@ public class ConverterBookAuthorDTO implements ConverterEntityDTO<BookAuthor, Bo
     public BookAuthor unpackEntityFromDTO(BookAuthorDTO bookAuthorDTO) {
         int id = bookAuthorDTO.getId();
         BookAuthor bookAuthor = (id == 0) ? new BookAuthor() : daoBookAuthor.getEntityById(id);
-        bookAuthor.setBook();
-        bookAuthor.setAuthor();
+        bookAuthor.setBook(daoBook.getEntityById(bookAuthorDTO.getBookId()));
+        bookAuthor.setAuthor(daoAuthor.getEntityById(bookAuthorDTO.getAuthorId()));
         return bookAuthor;
     }
 

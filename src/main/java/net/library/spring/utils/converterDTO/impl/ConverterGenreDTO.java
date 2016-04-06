@@ -10,8 +10,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class ConverterGenreDTO implements ConverterEntityDTO<Genre, GenreDTO> {
 
-    @Autowired
-    private DAOGenre daoGenre;
+    @Autowired private DAOGenre daoGenre;
 
     @Override
     public GenreDTO packEntityToDTO(Genre genre) {

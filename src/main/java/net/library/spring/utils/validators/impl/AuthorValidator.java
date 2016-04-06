@@ -42,7 +42,7 @@ public class AuthorValidator implements Validator<AuthorDTO> {
         authorTrimmed.setBiography(StringUtils.trimToEmpty(author.getBiography()));
         authorTrimmed.setId(author.getId());
         authorTrimmed.setBirthYear(author.getBirthYear());
-        authorTrimmed.setBooksList(author.getBooksList());
+        authorTrimmed.setBooksIdList(author.getBooksIdList());
         return authorTrimmed;
     }
 }

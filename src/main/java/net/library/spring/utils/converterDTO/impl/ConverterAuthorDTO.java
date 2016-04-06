@@ -4,9 +4,13 @@ import net.library.spring.dao.DAOAuthor;
 import net.library.spring.dao.DAOBook;
 import net.library.spring.dto.AuthorDTO;
 import net.library.spring.entities.Author;
+import net.library.spring.entities.BookAuthor;
 import net.library.spring.utils.converterDTO.ConverterEntityDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Component
 public class ConverterAuthorDTO implements ConverterEntityDTO<Author, AuthorDTO> {
@@ -22,21 +26,40 @@ public class ConverterAuthorDTO implements ConverterEntityDTO<Author, AuthorDTO>
         authorDTO.setMiddleName(author.getMiddleName());
         authorDTO.setBirthYear(author.getBirthYear());
         authorDTO.setBiography(author.getBiography());
-        authorDTO.setBooksIdList();
+        authorDTO.setBooksIdList(bookAuthorlistToIdList(author.getBooksList()));
         authorDTO.setId(author.getId());
         return authorDTO;
     }
     @Override
     public Author unpackEntityFromDTO(AuthorDTO authorDTO) {
         int id = authorDTO.getId();
-        Author author = (id == 0) ? new Author() : daoAuthor.getEntityById(id);
+        Author author;
+        if (id == 0) {
+            author = new Author();
+        } else {
+            author = daoAuthor.getEntityById(id);
+            author.getBooksList().clear();
+        }
         author.setSecondName(authorDTO.getSecondName());
         author.setFirstName(authorDTO.getFirstName());
         author.setMiddleName(authorDTO.getMiddleName());
         author.setBirthYear(authorDTO.getBirthYear());
         author.setBiography(authorDTO.getBiography());
-        author.setBooksList();
+        author.setBooksList(idListToBookAuthorList(authorDTO.getBooksIdList(), author));
         return author;
+    }
+    private List<BookAuthor> idListToBookAuthorList (List<Integer> idList, Author author) {
+        List<BookAuthor> bookAuthorList = new ArrayList<>();
+        for (int bookId : idList) {
+            BookAuthor bookAuthor = new BookAuthor(daoBook.getEntityById(bookId), author);
+            bookAuthorList.add(bookAuthor);
+        }
+        return bookAuthorList;
+    }
+    private List<Integer> bookAuthorlistToIdList (List<BookAuthor> bookAuthorList) {
+        List<Integer> idList = new ArrayList<>();
+        for (BookAuthor bookAuthor : bookAuthorList) idList.add(bookAuthor.getBook().getId());
+        return idList;
     }
 
 }
