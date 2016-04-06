@@ -18,13 +18,13 @@ import java.util.List;
 @Transactional
 public class ServiceBookImpl extends ServiceBase<BookDTO, DAOBook, Book> implements ServiceBook {
 
-    @Autowired
-    ServiceGenre serviceGenre;
+    @Autowired ServiceGenre serviceGenre;
 
     @Autowired
     public ServiceBookImpl(DAOBook dao, ConverterBookDTO converter) {
         super(dao, converter);
     }
+
     public List<BookDTO> searchBooksByGenre(GenreDTO genre) {
         List<BookDTO> entities = new ArrayList<>();
         for (Book book : getDao().searchBooksByGenre(serviceGenre.getConverterDTO().unpackEntityFromDTO(genre)))

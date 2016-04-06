@@ -91,9 +91,9 @@ public class AuthorsController {
     }
     @RequestMapping(value = MainController.REMOVE_ACTION_URL + "/{id}", method = RequestMethod.GET)
     public String deleteAuthor(@PathVariable("id") Integer id) {
-//        AuthorDTO author = serviceAuthor.getEntityById(id); //TODO delete comments
-//        author.getBooksIdList().clear();
-//        serviceAuthor.update(author);
+        AuthorDTO author = serviceAuthor.getEntityById(id);
+        author.getBooksIdList().clear();
+        serviceAuthor.update(author);
         serviceAuthor.delete(id);
         return "redirect:" + AuthorsController.AUTHOR_ROOT_URL + MainController.SHOW_ALL_ACTION_URL;
     }

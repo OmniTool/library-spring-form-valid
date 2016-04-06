@@ -30,11 +30,4 @@ public class DAOAuthorImpl extends DAOBase<Author> implements DAOAuthor {
         entities = super.searchEntityByCriteria(restrictions);
         return entities;
     }
-
-    @Override
-    public void delete(Author entity) {
-        entity.getBooksList().clear();
-        update(entity);
-        super.delete(entity);
-    }
 }
