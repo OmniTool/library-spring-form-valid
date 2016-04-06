@@ -43,7 +43,7 @@ public class ConverterBookDTO implements ConverterEntityDTO<Book, BookDTO> {
     }
     private List<BookAuthor> idListToBookAuthorList (List<Integer> idList, Book book) {
         List<BookAuthor> bookAuthorList = new ArrayList<>();
-        for (int authorId : idList) {
+        if (idList != null) for (int authorId : idList) {
             BookAuthor bookAuthor = new BookAuthor(book, daoAuthor.getEntityById(authorId));
             bookAuthorList.add(bookAuthor);
         }
