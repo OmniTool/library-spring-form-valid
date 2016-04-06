@@ -35,10 +35,8 @@ public class ConverterBookDTO implements ConverterEntityDTO<Book, BookDTO> {
     @Override
     public Book unpackEntityFromDTO(BookDTO bookDTO) {
         int id = bookDTO.getId();
-        Book book;
-        if (id == 0) {
-            book = new Book();
-        } else {
+        Book book = new Book();
+        if (id != 0) {
             book = daoBook.getEntityById(id);
             book.getAuthorsList().clear();
         }
