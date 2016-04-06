@@ -2,11 +2,15 @@ package net.library.spring.dao.impl;
 
 import net.library.spring.dao.DAOBookAuthor;
 import net.library.spring.entities.*;
+import org.hibernate.Criteria;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Repository
 @Transactional
@@ -20,11 +24,10 @@ public class DAOBookAuthorImpl extends DAOBase<BookAuthor> implements DAOBookAut
     public List<BookAuthor> searchEntityByName(BookAuthor entity) {
         List<BookAuthor> entities = new ArrayList<>();
         if (entity == null) return entities;
-            entities = currentSession().createQuery("FROM " + type.getSimpleName() +
-                    " e WHERE e.author.id = :author_id AND e.book.id = :book_id")
-                    .setParameter("author_id", entity.getAuthor().getId())
-                    .setParameter("book_id", entity.getBook().getId())
-                    .list();
+        Map<String, String> restrictions = new HashMap<>();
+        restrictions.put("author.id", String.valueOf(entity.getAuthor().getId()));
+        restrictions.put("book.id", String.valueOf(entity.getBook().getId()));
+        entities = super.searchEntityByName(restrictions);
         return entities;
     }
     

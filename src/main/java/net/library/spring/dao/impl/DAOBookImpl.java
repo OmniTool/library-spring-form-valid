@@ -2,12 +2,16 @@ package net.library.spring.dao.impl;
 
 import net.library.spring.dao.DAOBook;
 import net.library.spring.entities.*;
+import org.hibernate.Criteria;
+import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Repository
 @Transactional
@@ -21,9 +25,9 @@ public class DAOBookImpl extends DAOBase<Book> implements DAOBook {
     public List<Book> searchEntityByName(Book entity) {
         List<Book> entities = new ArrayList<>();
         if (entity == null) return entities;
-        entities = currentSession().createCriteria(type)
-                .add(Restrictions.like("title", "%" + entity.getTitle() + "%").ignoreCase())
-                .list();
+        Map<String, String> restrictions = new HashMap<>();
+        restrictions.put("title", "%" + entity.getTitle() + "%");
+        entities = super.searchEntityByName(restrictions);
         return entities;
     }
     

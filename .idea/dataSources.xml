@@ -6,14 +6,12 @@
       <synchronize>true</synchronize>
       <jdbc-driver>org.postgresql.Driver</jdbc-driver>
       <jdbc-url>jdbc:postgresql://localhost:5432/contactmanager</jdbc-url>
-      <libraries />
     </data-source>
     <data-source source="LOCAL" name="PostgreSQL - library_test@localhost" uuid="d38f3d7e-7a48-4311-80c6-61572c490595">
       <driver-ref>postgresql</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>org.postgresql.Driver</jdbc-driver>
       <jdbc-url>jdbc:postgresql://localhost:5432/library_test</jdbc-url>
-      <libraries />
     </data-source>
   </component>
 </project>
