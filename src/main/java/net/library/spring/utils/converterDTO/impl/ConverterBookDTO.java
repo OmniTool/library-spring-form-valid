@@ -26,8 +26,9 @@ public class ConverterBookDTO implements ConverterEntityDTO<Book, BookDTO> {
         BookDTO bookDTO = new BookDTO();
         bookDTO.setTitle(book.getTitle());
         bookDTO.setPubYear(book.getPubYear());
-        Genre genre = book.getGenre();
-        bookDTO.setGenreId(genre != null ? genre.getId() : 0);
+        //Genre genre = book.getGenre();
+        //bookDTO.setGenreId(genre != null ? genre.getId() : 0);//TODO test and delete
+        bookDTO.setGenreId(book.getGenre().getId());
         bookDTO.setAuthorsIdList(bookAuthorlistToIdList(book.getAuthorsList()));
         bookDTO.setId(book.getId());
         return bookDTO;
