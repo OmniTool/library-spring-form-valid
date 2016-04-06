@@ -3,6 +3,7 @@ package net.library.spring.dao.impl;
 import net.library.spring.dao.DAOBookAuthor;
 import net.library.spring.entities.*;
 import org.hibernate.Criteria;
+import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,11 +25,10 @@ public class DAOBookAuthorImpl extends DAOBase<BookAuthor> implements DAOBookAut
     public List<BookAuthor> searchEntityByName(BookAuthor entity) {
         List<BookAuthor> entities = new ArrayList<>();
         if (entity == null) return entities;
-        Criteria criteria = currentSession().createCriteria(type)
-                .setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY)
-                .add(Restrictions.eq("author.id", entity.getAuthor().getId()))
-                .add(Restrictions.eq("book.id", entity.getBook().getId()));
-        entities = criteria.list();
+        List<Criterion> restrictions = new ArrayList<>();
+        restrictions.add(Restrictions.eq("author.id", entity.getAuthor().getId()));
+        restrictions.add(Restrictions.eq("book.id", entity.getBook().getId()));
+        entities = super.searchEntityByCriteria(restrictions);
         return entities;
     }
 

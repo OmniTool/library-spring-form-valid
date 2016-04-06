@@ -27,7 +27,7 @@ public class AuthorValidator implements Validator<AuthorDTO> {
             if (authorFound.getFirstName().toUpperCase().equals(firstName)
                     && authorFound.getMiddleName().toUpperCase().equals(middleName)
                     && authorFound.getSecondName().toUpperCase().equals(secondName)
-                    && authorFound.getBirthYear()==birthYear
+                    && authorFound.getBirthYear().equals(birthYear)
                     && authorFound.getId() != author.getId())
                 return true;
         }

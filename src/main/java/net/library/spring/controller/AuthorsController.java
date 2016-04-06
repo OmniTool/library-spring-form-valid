@@ -109,7 +109,7 @@ public class AuthorsController {
     }
     private AuthorDTO initEntityFromAttributes(AuthorDTO author, List<Integer> booksIdList) {
         author = validator.trim(author);
-        author.setBooksIdList(booksIdList);
+        author.setBooksIdList(booksIdList == null ? new ArrayList<Integer>() : booksIdList);
         return author;
     }
     private boolean dataIsCorrect(@ModelAttribute(AUTHOR_ATTRIBUTE_NAME) @Valid AuthorDTO author, BindingResult result, Map<String, Object> map) {

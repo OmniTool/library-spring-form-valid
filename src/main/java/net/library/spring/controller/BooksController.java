@@ -114,7 +114,7 @@ public class BooksController {
     private BookDTO initEntityFromAttributes(BookDTO book, List<Integer> authorsIdList, int genereId) {
         book = validator.trim(book);
         book.setGenreId(genereId);
-        book.setAuthorsIdList(authorsIdList);
+        book.setAuthorsIdList(authorsIdList == null ? new ArrayList<Integer>() : authorsIdList);
         return book;
     }
     private boolean dataIsCorrect(@ModelAttribute(BOOK_ATTRIBUTE_NAME) @Valid BookDTO book, BindingResult result, Map<String, Object> map) {

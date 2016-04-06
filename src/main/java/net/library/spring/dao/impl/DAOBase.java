@@ -5,6 +5,7 @@ import net.library.spring.entities.*;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,12 +28,12 @@ public class DAOBase<T extends EntityBase> {
         return sessionFactory.getCurrentSession();
     }
 
-    public List<T> searchEntityByCriteria(Map<String, String> restrictions) {
+    public List<T> searchEntityByCriteria(List<Criterion> restrictions) {
         List<T> entities = new ArrayList<>();
         if (restrictions == null) return entities;
         Criteria criteria = currentSession().createCriteria(type)
                 .setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
-        for (Map.Entry<String, String> restriction : restrictions.entrySet()) criteria.add(Restrictions.like(restriction.getKey(), restriction.getValue()).ignoreCase());
+        for (Criterion restriction : restrictions) criteria.add(restriction);
         entities = criteria.list();
         return entities;
     }
