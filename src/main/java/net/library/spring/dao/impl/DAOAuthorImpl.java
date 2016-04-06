@@ -27,7 +27,7 @@ public class DAOAuthorImpl extends DAOBase<Author> implements DAOAuthor {
         restrictions.put("firstName", "%" + entity.getFirstName() + "%");
         restrictions.put("secondName", "%" + entity.getSecondName() + "%");
         restrictions.put("middleName", "%" + entity.getMiddleName() + "%");
-        entities = super.searchEntityByName(restrictions);
+        entities = super.searchEntityByCriteria(restrictions);
         return entities;
     }
 

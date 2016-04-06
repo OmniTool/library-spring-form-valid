@@ -8,6 +8,4 @@ import java.util.List;
 
 public interface DAOBookAuthor extends DAO<BookAuthor, Integer> {
 
-    List<Book> searchBooksByAuthor(Author entity);
-    List<Author> searchAuthorsByBook(Book entity);
 }

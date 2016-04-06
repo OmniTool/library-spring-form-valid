@@ -27,17 +27,17 @@ public class DAOBookImpl extends DAOBase<Book> implements DAOBook {
         if (entity == null) return entities;
         Map<String, String> restrictions = new HashMap<>();
         restrictions.put("title", "%" + entity.getTitle() + "%");
-        entities = super.searchEntityByName(restrictions);
+        entities = super.searchEntityByCriteria(restrictions);
         return entities;
     }
     
     public List<Book> searchBooksByGenre(Genre entity) {
         List<Book> entities = new ArrayList<>();
         if (entity == null) return entities;
-            entities = currentSession().createQuery("FROM " + type.getSimpleName() +
-                    " e WHERE e.genre.id = :genre_id")
-                    .setParameter("genre_id", entity.getId())
-                    .list();
+        Criteria criteria = currentSession().createCriteria(type)
+                .setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY)
+                .add(Restrictions.eq("genre.id", entity.getId()));
+        entities = criteria.list();
         return entities;
     }
 

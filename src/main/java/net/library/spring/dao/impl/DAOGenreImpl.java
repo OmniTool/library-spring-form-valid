@@ -25,7 +25,7 @@ public class DAOGenreImpl extends DAOBase<Genre> implements DAOGenre {
         if (entity == null) return entities;
         Map<String, String> restrictions = new HashMap<>();
         restrictions.put("title", "%" + entity.getTitle() + "%");
-        entities = super.searchEntityByName(restrictions);
+        entities = super.searchEntityByCriteria(restrictions);
         return entities;
     }
 

@@ -27,7 +27,7 @@ public class DAOBase<T extends EntityBase> {
         return sessionFactory.getCurrentSession();
     }
 
-    public List<T> searchEntityByName(Map<String, String> restrictions) {
+    public List<T> searchEntityByCriteria(Map<String, String> restrictions) {
         List<T> entities = new ArrayList<>();
         if (restrictions == null) return entities;
         Criteria criteria = currentSession().createCriteria(type)

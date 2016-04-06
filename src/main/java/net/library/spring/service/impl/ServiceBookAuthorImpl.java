@@ -23,16 +23,5 @@ public class ServiceBookAuthorImpl extends ServiceBase<BookAuthorDTO, DAOBookAut
     public ServiceBookAuthorImpl(DAOBookAuthor dao, ConverterBookAuthorDTO converter) {
         super(dao, converter);
     }
-    public List<BookDTO> searchBooksByAuthor(AuthorDTO author) {
-        List<BookDTO> booksDTO = new ArrayList<>();
-        for (Book book : getDao().searchBooksByAuthor(serviceAuthor.getConverterDTO().unpackEntityFromDTO(author)))
-            booksDTO.add(serviceBook.getConverterDTO().packEntityToDTO(book));
-        return booksDTO;
-    }
-    public List<AuthorDTO> searchAuthorsByBook(BookDTO book) {
-        List<AuthorDTO> authorsDTO = new ArrayList<>();
-        for (Author author : getDao().searchAuthorsByBook(serviceBook.getConverterDTO().unpackEntityFromDTO(book)))
-            authorsDTO.add(serviceAuthor.getConverterDTO().packEntityToDTO(author));
-        return authorsDTO;
-    }
+
 }

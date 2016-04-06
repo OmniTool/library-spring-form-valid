@@ -9,7 +9,4 @@ import java.util.List;
 
 public interface ServiceBookAuthor extends Service<BookAuthorDTO, Integer, BookAuthor> {
 
-    List<BookDTO> searchBooksByAuthor(AuthorDTO entity);
-    List<AuthorDTO> searchAuthorsByBook(BookDTO entity);
-
 }
