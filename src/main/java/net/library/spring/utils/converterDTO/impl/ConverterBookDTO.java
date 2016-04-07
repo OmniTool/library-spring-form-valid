@@ -17,7 +17,7 @@ import java.util.List;
 @Component
 public class ConverterBookDTO implements ConverterEntityDTO<Book, BookDTO> {
 
-    public static final int GENRE_DEFAULT_ID = 0;
+    private static final int GENRE_DEFAULT_ID = 0;
     @Autowired private DAOAuthor daoAuthor;
     @Autowired private DAOBook daoBook;
     @Autowired private DAOGenre daoGenre;

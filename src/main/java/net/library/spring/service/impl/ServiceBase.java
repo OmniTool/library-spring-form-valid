@@ -29,8 +29,7 @@ public class ServiceBase<T extends BaseDTO, D extends DAO, E extends EntityBase>
 
     public T getEntityById(Integer id) {
         E entity = (E) dao.getEntityById(id);
-        T entityDto = converterDTO.packEntityToDTO(entity);
-        return entityDto;
+        return converterDTO.packEntityToDTO(entity);
     }
 
     public void update(T entityDTO) {

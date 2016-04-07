@@ -14,7 +14,7 @@ import java.util.List;
 @Transactional
 public class DAOBase<T extends EntityBase> {
 
-    protected Class<T> type;
+    private Class<T> type;
     @Autowired
     private SessionFactory sessionFactory;
 
@@ -25,7 +25,7 @@ public class DAOBase<T extends EntityBase> {
         return sessionFactory.getCurrentSession();
     }
 
-    public List<T> searchEntityByCriteria(List<Criterion> restrictions) {
+    protected List<T> searchEntityByCriteria(List<Criterion> restrictions) {
         List<T> entities = new ArrayList<>();
         if (restrictions == null) return entities;
         Criteria criteria = currentSession().createCriteria(type)
@@ -45,8 +45,7 @@ public class DAOBase<T extends EntityBase> {
     
     public T getEntityById(Integer id) {
         if (id == null) return null;
-        T entity = (T) currentSession().get(type, id);
-        return entity;
+        return (T) currentSession().get(type, id);
     }
     
     public void update(T entity) {

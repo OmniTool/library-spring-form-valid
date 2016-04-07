@@ -1,18 +1,15 @@
 package net.library.spring.dao.impl;
 
 import net.library.spring.dao.DAOBook;
-import net.library.spring.entities.*;
-import org.hibernate.Criteria;
+import net.library.spring.entities.Book;
+import net.library.spring.entities.Genre;
 import org.hibernate.criterion.Criterion;
-import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @Repository
 @Transactional

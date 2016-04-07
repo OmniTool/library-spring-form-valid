@@ -25,7 +25,7 @@ public class BookValidator implements Validator<BookDTO> {
             bookFound = trim(bookFound);
             if (bookFound.getTitle().toUpperCase().equals(title)
                     && bookFound.getPubYear().equals(pubYear)
-                    && bookFound.getGenreId()==genreId
+                    && bookFound.getGenreId().equals(genreId)
                     && bookFound.getId() != book.getId())
                 return true;
         }
