@@ -18,13 +18,11 @@ public class DAOGenreImpl extends DAOBase<Genre> implements DAOGenre {
         super(Genre.class);
     }
     @Override
-    public List<Genre> searchEntityByName(Genre entity) {
-        List<Genre> entities = new ArrayList<>();
-        if (entity == null) return entities;
+    public List<Genre> searchEntityByName(Genre genre) {
+        if (genre == null) return new ArrayList<>();
         List<Criterion> restrictions = new ArrayList<>();
-        restrictions.add(Restrictions.like("title", "%" + entity.getTitle() + "%").ignoreCase());
-        entities = super.searchEntityByCriteria(restrictions);
-        return entities;
+        restrictions.add(Restrictions.like("title", "%" + genre.getTitle() + "%").ignoreCase());
+        return super.searchEntityByCriteria(restrictions);
     }
 
 

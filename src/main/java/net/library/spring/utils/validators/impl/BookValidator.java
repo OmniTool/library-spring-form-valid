@@ -18,19 +18,19 @@ public class BookValidator implements Validator<BookDTO> {
     public boolean exists(BookDTO book) {
         book = trim(book);
         List<BookDTO> list = serviceBook.searchEntityByName(book);
-        String title = book.getTitle().toUpperCase();
-        Integer pubYear = book.getPubYear();
-        Integer genreId = book.getGenreId();
         for (BookDTO bookFound : list) {
             bookFound = trim(bookFound);
-            if (bookFound.getTitle().toUpperCase().equals(title)
-                    && bookFound.getPubYear().equals(pubYear)
-                    && bookFound.getGenreId().equals(genreId)
-                    && bookFound.getId() != book.getId())
-                return true;
+            if (areIdentical(book, bookFound)) return true;
         }
         return false;
     }
+    private boolean areIdentical(BookDTO book, BookDTO bookFound) {
+        return bookFound.getTitle().toUpperCase().equals(book.getTitle().toUpperCase())
+                && bookFound.getPubYear().equals(book.getPubYear())
+                && bookFound.getGenreId().equals(book.getGenreId())
+                && bookFound.getId() != book.getId();
+    }
+
     @Override
     public BookDTO trim(BookDTO book) {
         BookDTO bookTrimmed = new BookDTO();

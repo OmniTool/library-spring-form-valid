@@ -18,21 +18,20 @@ public class AuthorValidator implements Validator<AuthorDTO> {
     public boolean exists(AuthorDTO author) {
         author = trim(author);
         List<AuthorDTO> list = serviceAuthor.searchEntityByName(author);
-        String firstName = author.getFirstName().toUpperCase();
-        String middleName = author.getMiddleName().toUpperCase();
-        String secondName = author.getSecondName().toUpperCase();
-        Integer birthYear = author.getBirthYear();
         for (AuthorDTO authorFound : list) {
             authorFound = trim(authorFound);
-            if (authorFound.getFirstName().toUpperCase().equals(firstName)
-                    && authorFound.getMiddleName().toUpperCase().equals(middleName)
-                    && authorFound.getSecondName().toUpperCase().equals(secondName)
-                    && authorFound.getBirthYear().equals(birthYear)
-                    && authorFound.getId() != author.getId())
-                return true;
+            if (areIdentical(author, authorFound)) return true;
         }
         return false;
     }
+    private boolean areIdentical(AuthorDTO author, AuthorDTO authorFound) {
+        return authorFound.getFirstName().toUpperCase().equals(author.getFirstName().toUpperCase())
+                && authorFound.getMiddleName().toUpperCase().equals(author.getMiddleName().toUpperCase())
+                && authorFound.getSecondName().toUpperCase().equals(author.getSecondName().toUpperCase())
+                && authorFound.getBirthYear().equals(author.getBirthYear())
+                && authorFound.getId() != author.getId();
+    }
+
     @Override
     public AuthorDTO trim(AuthorDTO author) {
         AuthorDTO authorTrimmed = new AuthorDTO();

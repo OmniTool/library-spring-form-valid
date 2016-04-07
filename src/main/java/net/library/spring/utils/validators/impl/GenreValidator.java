@@ -18,15 +18,17 @@ public class GenreValidator implements Validator<GenreDTO> {
     public boolean exists(GenreDTO genre) {
         genre = trim(genre);
         List<GenreDTO> list = serviceGenre.searchEntityByName(genre);
-        String title = genre.getTitle().toUpperCase();
         for (GenreDTO genreFound : list) {
             genreFound = trim(genreFound);
-            if (genreFound.getTitle().toUpperCase().equals(title)
-                    && genreFound.getId() != genre.getId())
-                return true;
+            if (areIdentical(genre, genreFound)) return true;
         }
         return false;
     }
+    private boolean areIdentical(GenreDTO genre, GenreDTO genreFound) {
+        return genreFound.getTitle().toUpperCase().equals(genre.getTitle().toUpperCase())
+                && genreFound.getId() != genre.getId();
+    }
+
     @Override
     public GenreDTO trim(GenreDTO genre) {
         GenreDTO genreTrimmed = new GenreDTO();

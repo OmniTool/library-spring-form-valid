@@ -20,22 +20,18 @@ public class DAOBookImpl extends DAOBase<Book> implements DAOBook {
     }
     @Override
     
-    public List<Book> searchEntityByName(Book entity) {
-        List<Book> entities = new ArrayList<>();
-        if (entity == null) return entities; //TODO double
+    public List<Book> searchEntityByName(Book book) {
+        if (book == null) return new ArrayList<>();
         List<Criterion> restrictions = new ArrayList<>();
-        restrictions.add(Restrictions.like("title", "%" + entity.getTitle() + "%").ignoreCase());
-        entities = super.searchEntityByCriteria(restrictions);
-        return entities;
+        restrictions.add(Restrictions.like("title", "%" + book.getTitle() + "%").ignoreCase());
+        return super.searchEntityByCriteria(restrictions);
     }
     
-    public List<Book> searchBooksByGenre(Genre entity) {
-        List<Book> entities = new ArrayList<>();
-        if (entity == null) return entities;
+    public List<Book> searchBooksByGenre(Genre genre) {
+        if (genre == null) return new ArrayList<>();
         List<Criterion> restrictions = new ArrayList<>();
-        restrictions.add(Restrictions.eq("genre.id", entity.getId()));
-        entities = super.searchEntityByCriteria(restrictions);
-        return entities;
+        restrictions.add(Restrictions.eq("genre.id", genre.getId()));
+        return super.searchEntityByCriteria(restrictions);
     }
 
 }
