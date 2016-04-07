@@ -4,7 +4,6 @@ import net.library.spring.dto.AuthorDTO;
 import net.library.spring.dto.BookDTO;
 import net.library.spring.service.ServiceAuthor;
 import net.library.spring.service.ServiceBook;
-import net.library.spring.service.ServiceBookAuthor;
 import net.library.spring.service.ServiceGenre;
 import net.library.spring.utils.validators.Validator;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,7 +38,6 @@ public class BooksController {
     @Autowired private ServiceBook serviceBook;
     @Autowired private ServiceAuthor serviceAuthor;
     @Autowired private ServiceGenre serviceGenre;
-    @Autowired private ServiceBookAuthor serviceBookAuthor;
     @Autowired private Validator<BookDTO> validator;
 
     @RequestMapping(MainController.SHOW_ALL_ACTION_URL)

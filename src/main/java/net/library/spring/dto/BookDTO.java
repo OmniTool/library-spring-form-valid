@@ -19,31 +19,24 @@ public class BookDTO extends BaseDTO<Book> {
     public String getTitle() {
         return title;
     }
-
     public void setTitle(String title) {
         this.title = title;
     }
-
     public Integer getPubYear() {
         return pubYear;
     }
-
     public void setPubYear(Integer pubYear) {
         this.pubYear = pubYear;
     }
-
     public Integer getGenreId() {
         return genreId;
     }
-
     public void setGenreId(Integer genreId) {
         this.genreId = genreId;
     }
-
     public List<Integer> getAuthorsIdList() {
         return authorsIdList;
     }
-
     public void setAuthorsIdList(List<Integer> authorsIdList) {
         this.authorsIdList = authorsIdList;
     }

@@ -34,7 +34,6 @@ public class AuthorsController {
 
     @Autowired private ServiceAuthor serviceAuthor;
     @Autowired private ServiceBook serviceBook;
-    @Autowired private ServiceBookAuthor serviceBookAuthor;
     @Autowired private Validator<AuthorDTO> validator;
 
     @RequestMapping(MainController.SHOW_ALL_ACTION_URL)

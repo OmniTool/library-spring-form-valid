@@ -18,13 +18,13 @@ public class DAOAuthorImpl extends DAOBase<Author> implements DAOAuthor {
         super(Author.class);
     }
     @Override
-    public List<Author> searchEntityByName(Author entity) {
+    public List<Author> searchEntityByName(Author author) {
         List<Author> entities = new ArrayList<>();
-        if (entity == null) return entities;
+        if (author == null) return entities;
         List<Criterion> restrictions = new ArrayList<>();
-        restrictions.add(Restrictions.like("firstName", "%" + entity.getFirstName() + "%").ignoreCase());
-        restrictions.add(Restrictions.like("secondName", "%" + entity.getSecondName() + "%").ignoreCase());
-        restrictions.add(Restrictions.like("middleName", "%" + entity.getMiddleName() + "%").ignoreCase());
+        restrictions.add(Restrictions.like("firstName", "%" + author.getFirstName() + "%").ignoreCase());
+        restrictions.add(Restrictions.like("secondName", "%" + author.getSecondName() + "%").ignoreCase());
+        restrictions.add(Restrictions.like("middleName", "%" + author.getMiddleName() + "%").ignoreCase());
         entities = super.searchEntityByCriteria(restrictions);
         return entities;
     }

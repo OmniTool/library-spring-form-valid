@@ -24,47 +24,36 @@ public class AuthorDTO extends BaseDTO<Author> {
     public String getSecondName() {
         return secondName;
     }
-
     public void setSecondName(String secondName) {
         this.secondName = secondName;
     }
-
     public String getFirstName() {
         return firstName;
     }
-
     public void setFirstName(String firstName) {
         this.firstName = firstName;
     }
-
     public String getMiddleName() {
         return middleName;
     }
-
     public void setMiddleName(String middleName) {
         this.middleName = middleName;
     }
-
     public Integer getBirthYear() {
         return birthYear;
     }
-
     public void setBirthYear(Integer birthYear) {
         this.birthYear = birthYear;
     }
-
     public String getBiography() {
         return biography;
     }
-
     public void setBiography(String biography) {
         this.biography = biography;
     }
-
     public List<Integer> getBooksIdList() {
         return booksIdList;
     }
-
     public void setBooksIdList(List<Integer> booksIdList) {
         this.booksIdList = booksIdList;
     }
