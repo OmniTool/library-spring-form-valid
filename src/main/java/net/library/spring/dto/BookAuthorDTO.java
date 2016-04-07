@@ -1,8 +1,6 @@
 package net.library.spring.dto;
 
-import net.library.spring.entities.*;
-
-public class BookAuthorDTO extends BaseDTO<BookAuthor> {
+public class BookAuthorDTO extends BaseDTO<BookAuthorDTO> {
 
     private Integer bookId;
     private Integer authorId;
@@ -21,4 +19,14 @@ public class BookAuthorDTO extends BaseDTO<BookAuthor> {
     public void setAuthorId(Integer authorId) {
         this.authorId = authorId;
     }
+
+    public BookAuthorDTO trim() { return this; }
+
+    @Override
+    public boolean isIdentical(BookAuthorDTO bookAuthor) {
+        return getBookId().equals(bookAuthor.getBookId())
+                && getAuthorId().equals(bookAuthor.getAuthorId());
+    }
+
+
 }

@@ -97,7 +97,7 @@ public class AuthorsController {
         return "redirect:" + AuthorsController.AUTHOR_ROOT_URL + MainController.SHOW_ALL_ACTION_URL;
     }
     private void initAttributes(Map<String, Object> map, AuthorDTO author) {
-        author = validator.trim(author);
+        author = author.trim();
         map.put(AUTHOR_ATTRIBUTE_NAME, author);
         List<BookDTO> books = new ArrayList<>();
         for (Integer bookId : author.getBooksIdList()) {
@@ -107,7 +107,7 @@ public class AuthorsController {
         map.put(SOURCE_BOOKS_LIST_ATTRIBUTE_NAME, serviceBook.getAll());
     }
     private AuthorDTO initEntityFromAttributes(AuthorDTO author, List<Integer> booksIdList) {
-        author = validator.trim(author);
+        author = author.trim();
         author.setBooksIdList(booksIdList == null ? new ArrayList<Integer>() : booksIdList);
         return author;
     }

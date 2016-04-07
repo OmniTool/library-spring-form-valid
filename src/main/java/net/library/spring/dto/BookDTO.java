@@ -1,12 +1,12 @@
 package net.library.spring.dto;
 
-import net.library.spring.entities.*;
+import org.apache.commons.lang3.StringUtils;
 
 import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BookDTO extends BaseDTO<Book> {
+public class BookDTO extends BaseDTO<BookDTO> {
 
     @Size(min=1, max=64, message="Название: от 1 до 64 символов")
     private String title;
@@ -39,5 +39,21 @@ public class BookDTO extends BaseDTO<Book> {
     }
     public void setAuthorsIdList(List<Integer> authorsIdList) {
         this.authorsIdList = authorsIdList;
+    }
+
+    public boolean isIdentical(BookDTO book) {
+        return getTitle().toUpperCase().equals(book.getTitle().toUpperCase())
+                && getPubYear().equals(book.getPubYear())
+                && getGenreId().equals(book.getGenreId())
+                && getId() != book.getId();
+    }
+    public BookDTO trim() {
+        BookDTO bookTrimmed = new BookDTO();
+        bookTrimmed.setTitle(StringUtils.trimToEmpty(getTitle()));
+        bookTrimmed.setId(getId());
+        bookTrimmed.setAuthorsIdList(getAuthorsIdList());
+        bookTrimmed.setGenreId(getGenreId());
+        bookTrimmed.setPubYear(getPubYear());
+        return bookTrimmed;
     }
 }

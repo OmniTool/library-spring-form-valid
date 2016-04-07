@@ -88,7 +88,7 @@ public class GenresController {
         return "redirect:" + GenresController.GENRE_ROOT_URL + MainController.SHOW_ALL_ACTION_URL;
     }
     private void initAttributes(@ModelAttribute(GENRE_ATTRIBUTE_NAME) GenreDTO genre, Map<String, Object> map) {
-        genre = validator.trim(genre);
+        genre = genre.trim();
         map.put(GENRE_ATTRIBUTE_NAME, genre);
     }
     private boolean dataIsCorrect(@ModelAttribute(GENRE_ATTRIBUTE_NAME) @Valid GenreDTO genre, BindingResult result, Map<String, Object> map) {

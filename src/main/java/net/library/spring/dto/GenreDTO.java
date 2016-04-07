@@ -1,10 +1,10 @@
 package net.library.spring.dto;
 
-import net.library.spring.entities.Genre;
+import org.apache.commons.lang3.StringUtils;
 
 import javax.validation.constraints.Size;
 
-public class GenreDTO extends BaseDTO<Genre> {
+public class GenreDTO extends BaseDTO<GenreDTO> {
 
     @Size(min=1, max=64, message="Название: от 1 до 64 символов")
     private String title;
@@ -24,5 +24,17 @@ public class GenreDTO extends BaseDTO<Genre> {
     }
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public boolean isIdentical(GenreDTO genre) {
+        return getTitle().toUpperCase().equals(genre.getTitle().toUpperCase())
+                && getId() != genre.getId();
+    }
+    public GenreDTO trim() {
+        GenreDTO genreTrimmed = new GenreDTO();
+        genreTrimmed.setTitle(StringUtils.trimToEmpty(getTitle()));
+        genreTrimmed.setDescription(StringUtils.trimToEmpty(getDescription()));
+        genreTrimmed.setId(getId());
+        return genreTrimmed;
     }
 }
