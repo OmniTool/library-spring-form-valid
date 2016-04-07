@@ -66,7 +66,8 @@ public class BooksController {
                              @RequestParam(value= AUTHORS_LIST_ATTRIBUTE_NAME, required=false) List<Integer> listAuthorIds,
                             @ModelAttribute(BOOK_ATTRIBUTE_NAME) @Valid BookDTO book,
                              BindingResult result, Map<String, Object> map) {
-        book = initEntityFromAttributes(book, listAuthorIds, genereId);
+        book.setGenreId(genereId);
+        book = initEntityFromAttributes(book, listAuthorIds);
         if (!dataIsCorrect(book, result, map)) return BOOK_ADD_VIEW;
         serviceBook.create(book);
         return "redirect:" + BooksController.BOOK_ROOT_URL + MainController.SHOW_ALL_ACTION_URL;
@@ -86,8 +87,9 @@ public class BooksController {
                              @RequestParam(value= AUTHORS_LIST_ATTRIBUTE_NAME, required=false) List<Integer> listAuthorIds,
                              @ModelAttribute(BOOK_ATTRIBUTE_NAME) @Valid BookDTO book,
                             BindingResult result, Map<String, Object> map) {
-        book = initEntityFromAttributes(book, listAuthorIds, genereId);
+        book.setGenreId(genereId);
         if (!dataIsCorrect(book, result, map)) return BOOK_EDIT_VIEW;
+        book = initEntityFromAttributes(book, listAuthorIds);
         serviceBook.update(book);
         return "redirect:" + BooksController.BOOK_ROOT_URL + "/" + book.getId();
     }
@@ -111,9 +113,8 @@ public class BooksController {
         map.put(SOURCE_AUTHORS_LIST_ATTRIBUTE_NAME, serviceAuthor.getAll());
         map.put(SOURCE_GENRES_LIST_ATTRIBUTE_NAME, serviceGenre.getAll());
     }
-    private BookDTO initEntityFromAttributes(BookDTO book, List<Integer> authorsIdList, int genereId) {
+    private BookDTO initEntityFromAttributes(BookDTO book, List<Integer> authorsIdList) {
         book = validator.trim(book);
-        book.setGenreId(genereId);
         book.setAuthorsIdList(authorsIdList == null ? new ArrayList<Integer>() : authorsIdList);
         return book;
     }

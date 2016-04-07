@@ -1,18 +1,15 @@
 package net.library.spring.dao.impl;
 
-import net.library.spring.entities.*;
-
+import net.library.spring.entities.EntityBase;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Criterion;
-import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 @Transactional
 public class DAOBase<T extends EntityBase> {
@@ -53,7 +50,7 @@ public class DAOBase<T extends EntityBase> {
     }
     
     public void update(T entity) {
-            currentSession().update(entity);
+        currentSession().update(entity);
     }
 
     public void delete(T entity) {

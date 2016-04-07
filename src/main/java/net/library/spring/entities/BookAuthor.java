@@ -6,10 +6,10 @@ import javax.persistence.*;
 @Table(name = "books_authors", schema = "public", catalog = "library_test")
 public class BookAuthor extends EntityBase {
 
-    @ManyToOne(targetEntity=Book.class, fetch = FetchType.EAGER)
+    @ManyToOne(targetEntity=Book.class, fetch = FetchType.LAZY)
     @JoinColumn(name = "book_id")
     private Book book;
-    @ManyToOne(targetEntity=Author.class, fetch = FetchType.EAGER)
+    @ManyToOne(targetEntity=Author.class, fetch = FetchType.LAZY)
     @JoinColumn(name = "author_id")
     private Author author;
 

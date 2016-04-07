@@ -84,8 +84,8 @@ public class AuthorsController {
     public String updateAuthor(@RequestParam(value= BOOKS_LIST_ATTRIBUTE_NAME, required=false) List<Integer> listBookIds,
                                @ModelAttribute(AUTHOR_ATTRIBUTE_NAME) @Valid AuthorDTO author,
                             BindingResult result, Map<String, Object> map) {
-        author = initEntityFromAttributes(author, listBookIds);
         if (!dataIsCorrect(author, result, map)) return AUTHOR_EDIT_VIEW;
+        author = initEntityFromAttributes(author, listBookIds);
         serviceAuthor.update(author);
         return "redirect:" + AuthorsController.AUTHOR_ROOT_URL + "/" + author.getId();
     }

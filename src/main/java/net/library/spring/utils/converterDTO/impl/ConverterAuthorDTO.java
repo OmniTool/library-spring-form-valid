@@ -15,7 +15,6 @@ public class ConverterAuthorDTO implements ConverterEntityDTO<Author, AuthorDTO>
 
     @Autowired private DAOAuthor daoAuthor;
     @Autowired private DAOBook daoBook;
-    @Autowired private DAOBookAuthor daoBookAuthor;
 
     @Override
     public AuthorDTO packEntityToDTO(Author author) {
@@ -32,27 +31,23 @@ public class ConverterAuthorDTO implements ConverterEntityDTO<Author, AuthorDTO>
     @Override
     public Author unpackEntityFromDTO(AuthorDTO authorDTO) {
         int id = authorDTO.getId();
-        Author author = new Author();
+        Author author;
         if (id != 0) {
             author = daoAuthor.getEntityById(id);
             author.getBooksList().clear();
+        } else {
+            author = new Author();
+            author.setBooksList(new ArrayList<BookAuthor>());
         }
         author.setSecondName(authorDTO.getSecondName());
         author.setFirstName(authorDTO.getFirstName());
         author.setMiddleName(authorDTO.getMiddleName());
         author.setBirthYear(authorDTO.getBirthYear());
         author.setBiography(authorDTO.getBiography());
-        for (BookAuthor bookAuthor : idListToBookAuthorList(authorDTO.getBooksIdList(), author))
-            author.getBooksList().add(daoBookAuthor.searchEntityByName(bookAuthor).get(0));
-        return author;
-    }
-    private List<BookAuthor> idListToBookAuthorList (List<Integer> idList, Author author) {
-        List<BookAuthor> bookAuthorList = new ArrayList<>();
-        if (idList != null) for (int bookId : idList) {
-            BookAuthor bookAuthor = new BookAuthor(daoBook.getEntityById(bookId), author);
-            bookAuthorList.add(bookAuthor);
+        for (int bookId : authorDTO.getBooksIdList()) {
+            author.getBooksList().add(new BookAuthor(daoBook.getEntityById(bookId), author));
         }
-        return bookAuthorList;
+        return author;
     }
     private List<Integer> bookAuthorlistToIdList (List<BookAuthor> bookAuthorList) {
         List<Integer> idList = new ArrayList<>();
