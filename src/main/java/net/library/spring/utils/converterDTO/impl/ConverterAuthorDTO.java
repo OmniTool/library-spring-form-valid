@@ -24,7 +24,7 @@ public class ConverterAuthorDTO implements ConverterEntityDTO<Author, AuthorDTO>
         authorDTO.setMiddleName(author.getMiddleName());
         authorDTO.setBirthYear(author.getBirthYear());
         authorDTO.setBiography(author.getBiography());
-        authorDTO.setBooksIdList(convertBookAuthorListToBookIdList(author.getBooksList()));
+        authorDTO.setBooksIdList(convertBookAuthorsToIds(author.getBooksList()));
         authorDTO.setId(author.getId());
         return authorDTO;
     }
@@ -53,7 +53,7 @@ public class ConverterAuthorDTO implements ConverterEntityDTO<Author, AuthorDTO>
         }
         return author;
     }
-    private List<Integer> convertBookAuthorListToBookIdList (List<BookAuthor> bookAuthorList) {
+    private List<Integer> convertBookAuthorsToIds(List<BookAuthor> bookAuthorList) {
         List<Integer> idList = new ArrayList<>();
         for (BookAuthor bookAuthor : bookAuthorList) idList.add(bookAuthor.getBook().getId());
         return idList;

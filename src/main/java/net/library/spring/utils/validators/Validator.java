@@ -1,6 +1,6 @@
 package net.library.spring.utils.validators;
 
-public interface Validator <E> {
+public interface Validator<E> {
 
     boolean exists(E entity);
 }
