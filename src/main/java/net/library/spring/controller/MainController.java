@@ -13,7 +13,7 @@ public class MainController {
     public static final String REMOVE_ACTION_URL = "/remove";
     public static final String SEARCH_ACTION_URL = "/find";
 
-    @RequestMapping({"/","/home","index"})
+    @RequestMapping({"/", "/home", "index"})
     public String home() {
         return HOMEPAGE_VIEW;
     }

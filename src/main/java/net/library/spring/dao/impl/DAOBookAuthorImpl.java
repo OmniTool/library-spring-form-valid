@@ -17,8 +17,8 @@ public class DAOBookAuthorImpl extends DAOBase<BookAuthor> implements DAOBookAut
     public DAOBookAuthorImpl() {
         super(BookAuthor.class);
     }
+
     @Override
-    
     public List<BookAuthor> searchEntityByName(BookAuthor bookAuthor) {
         if (bookAuthor == null) return new ArrayList<>();
         List<Criterion> restrictions = new ArrayList<>();
@@ -26,6 +26,4 @@ public class DAOBookAuthorImpl extends DAOBase<BookAuthor> implements DAOBookAut
         restrictions.add(Restrictions.eq("book.id", bookAuthor.getBook().getId()));
         return super.searchEntityByCriteria(restrictions);
     }
-
-
 }

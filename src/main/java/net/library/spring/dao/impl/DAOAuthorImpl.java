@@ -17,6 +17,7 @@ public class DAOAuthorImpl extends DAOBase<Author> implements DAOAuthor {
     public DAOAuthorImpl() {
         super(Author.class);
     }
+
     @Override
     public List<Author> searchEntityByName(Author author) {
         if (author == null) return new ArrayList<>();

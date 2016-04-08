@@ -18,20 +18,20 @@ public class DAOBookImpl extends DAOBase<Book> implements DAOBook {
     public DAOBookImpl() {
         super(Book.class);
     }
+
     @Override
-    
     public List<Book> searchEntityByName(Book book) {
         if (book == null) return new ArrayList<>();
         List<Criterion> restrictions = new ArrayList<>();
         restrictions.add(Restrictions.like("title", "%" + book.getTitle() + "%").ignoreCase());
         return super.searchEntityByCriteria(restrictions);
     }
-    
+
+    @Override
     public List<Book> searchBooksByGenre(Genre genre) {
         if (genre == null) return new ArrayList<>();
         List<Criterion> restrictions = new ArrayList<>();
         restrictions.add(Restrictions.eq("genre.id", genre.getId()));
         return super.searchEntityByCriteria(restrictions);
     }
-
 }

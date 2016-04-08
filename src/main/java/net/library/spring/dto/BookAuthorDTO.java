@@ -20,10 +20,11 @@ public class BookAuthorDTO extends BaseDTO<BookAuthorDTO> {
         this.authorId = authorId;
     }
 
+    @Override
     public BookAuthorDTO trim() { return this; }
 
     @Override
-    public boolean isIdentical(BookAuthorDTO bookAuthor) {
+    public boolean isIdenticalExceptId(BookAuthorDTO bookAuthor) {
         return getBookId().equals(bookAuthor.getBookId())
                 && getAuthorId().equals(bookAuthor.getAuthorId());
     }

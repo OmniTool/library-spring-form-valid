@@ -17,10 +17,10 @@ import java.util.List;
 @Component
 public class ConverterBookDTO implements ConverterEntityDTO<Book, BookDTO> {
 
-    private static final int GENRE_DEFAULT_ID = 0;
     @Autowired private DAOAuthor daoAuthor;
     @Autowired private DAOBook daoBook;
     @Autowired private DAOGenre daoGenre;
+    private static final int GENRE_DEFAULT_ID = 0;
 
     @Override
     public BookDTO packEntityToDTO(Book book) {
@@ -57,7 +57,6 @@ public class ConverterBookDTO implements ConverterEntityDTO<Book, BookDTO> {
         }
         return book;
     }
-
     private List<Integer> convertBookAuthorsToIds(List<BookAuthor> bookAuthorList) {
         List<Integer> idList = new ArrayList<>();
         for (BookAuthor bookAuthor : bookAuthorList) idList.add(bookAuthor.getAuthor().getId());

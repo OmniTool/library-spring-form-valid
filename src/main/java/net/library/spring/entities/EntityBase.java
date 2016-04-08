@@ -4,6 +4,7 @@ import javax.persistence.*;
 
 @MappedSuperclass
 public abstract class EntityBase {
+
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "increment_id")
     @SequenceGenerator(name = "increment_id", sequenceName = "increment_id", allocationSize = 1)
@@ -24,6 +25,7 @@ public abstract class EntityBase {
         EntityBase that = (EntityBase) o;
         return getId() == that.getId();
     }
+
     @Override
     public int hashCode() {
         return getId();

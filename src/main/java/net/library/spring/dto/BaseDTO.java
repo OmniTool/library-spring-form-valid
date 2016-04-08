@@ -7,9 +7,12 @@ public abstract class BaseDTO<B extends BaseDTO> {
     public int getId() {
         return id;
     }
+
     public void setId(int id) {
         this.id = id;
     }
+
     public abstract B trim();
-    public abstract boolean isIdentical(B dto);
+
+    public abstract boolean isIdenticalExceptId(B dto);
 }

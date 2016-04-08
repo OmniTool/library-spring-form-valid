@@ -26,10 +26,13 @@ public class GenreDTO extends BaseDTO<GenreDTO> {
         this.description = description;
     }
 
-    public boolean isIdentical(GenreDTO genre) {
+    @Override
+    public boolean isIdenticalExceptId(GenreDTO genre) {
         return getTitle().toUpperCase().equals(genre.getTitle().toUpperCase())
                 && getId() != genre.getId();
     }
+
+    @Override
     public GenreDTO trim() {
         GenreDTO genreTrimmed = new GenreDTO();
         genreTrimmed.setTitle(StringUtils.trimToEmpty(getTitle()));

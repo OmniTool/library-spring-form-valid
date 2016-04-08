@@ -17,7 +17,7 @@ public class ValidatorBase<D extends BaseDTO, B extends EntityBase> {
         List<D> list = service.searchEntityByName(dto);
         for (D authorFound : list) {
             authorFound = (D) authorFound.trim();
-            if (dto.isIdentical(authorFound)) return true;
+            if (dto.isIdenticalExceptId(authorFound)) return true;
         }
         return false;
     }

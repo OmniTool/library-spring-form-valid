@@ -58,13 +58,16 @@ public class AuthorDTO extends BaseDTO<AuthorDTO> {
         this.booksIdList = booksIdList;
     }
 
-    public boolean isIdentical(AuthorDTO author) {
+    @Override
+    public boolean isIdenticalExceptId(AuthorDTO author) {
         return getFirstName().toUpperCase().equals(author.getFirstName().toUpperCase())
                 && getMiddleName().toUpperCase().equals(author.getMiddleName().toUpperCase())
                 && getSecondName().toUpperCase().equals(author.getSecondName().toUpperCase())
                 && getBirthYear().equals(author.getBirthYear())
                 && getId() != author.getId();
     }
+
+    @Override
     public AuthorDTO trim() {
         AuthorDTO authorTrimmed = new AuthorDTO();
         authorTrimmed.setFirstName(StringUtils.trimToEmpty(getFirstName()));

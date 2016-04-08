@@ -35,6 +35,7 @@ public class BooksController {
     private static final String SELECTED_GENRE_ATTRIBUTE_NAME = "currentGenre";
     public static final String AUTHORS_LIST_ATTRIBUTE_NAME = "listAuthor";
     public static final String GENERE_ID_ATTRIBUTE_NAME = "genereId";
+
     @Autowired private ServiceBook serviceBook;
     @Autowired private ServiceAuthor serviceAuthor;
     @Autowired private ServiceGenre serviceGenre;
@@ -45,6 +46,7 @@ public class BooksController {
         map.put(BOOKS_LIST_ATTRIBUTE_NAME, serviceBook.getAll());
         return BOOKS_LIST_VIEW;
     }
+
     @RequestMapping(value = MainController.SEARCH_ACTION_URL, method = RequestMethod.POST)
     public String findBook(@RequestParam(TITLE_ATTRIBUTE_NAME) String title, Map<String, Object> map) {
         BookDTO book = new BookDTO();
@@ -59,10 +61,11 @@ public class BooksController {
         initAttributes(map, book);
         return BOOK_ADD_VIEW;
     }
+
     @RequestMapping(value = MainController.ADD_ACTION_URL, method = RequestMethod.POST)
     public String createBook(@RequestParam(GENERE_ID_ATTRIBUTE_NAME) int genereId,
-                             @RequestParam(value= AUTHORS_LIST_ATTRIBUTE_NAME, required=false) List<Integer> listAuthorIds,
-                            @ModelAttribute(BOOK_ATTRIBUTE_NAME) @Valid BookDTO book,
+                             @RequestParam(value = AUTHORS_LIST_ATTRIBUTE_NAME, required = false) List<Integer> listAuthorIds,
+                             @ModelAttribute(BOOK_ATTRIBUTE_NAME) @Valid BookDTO book,
                              BindingResult result, Map<String, Object> map) {
         book.setGenreId(genereId);
         book = initEntityFromAttributes(book, listAuthorIds);
@@ -70,27 +73,31 @@ public class BooksController {
         serviceBook.create(book);
         return "redirect:" + BooksController.BOOK_ROOT_URL + MainController.SHOW_ALL_ACTION_URL;
     }
+
     @RequestMapping(value = "/{id}")
     public String readBook(@PathVariable("id") Integer id, Map<String, Object> map) {
         initAttributes(map, serviceBook.getEntityById(id));
         return BOOK_INFO_VIEW;
     }
+
     @RequestMapping(value = MainController.EDIT_ACTION_URL + "/{id}", method = RequestMethod.GET)
     public String updateBook(@PathVariable("id") Integer id, Map<String, Object> map) {
         initAttributes(map, serviceBook.getEntityById(id));
         return BOOK_EDIT_VIEW;
     }
+
     @RequestMapping(value = MainController.EDIT_ACTION_URL + "/{id}", method = RequestMethod.POST)
     public String updateBook(@RequestParam(GENERE_ID_ATTRIBUTE_NAME) int genereId,
-                             @RequestParam(value= AUTHORS_LIST_ATTRIBUTE_NAME, required=false) List<Integer> listAuthorIds,
+                             @RequestParam(value = AUTHORS_LIST_ATTRIBUTE_NAME, required = false) List<Integer> listAuthorIds,
                              @ModelAttribute(BOOK_ATTRIBUTE_NAME) @Valid BookDTO book,
-                            BindingResult result, Map<String, Object> map) {
+                             BindingResult result, Map<String, Object> map) {
         book.setGenreId(genereId);
         if (!dataIsCorrect(book, result, map)) return BOOK_EDIT_VIEW;
         book = initEntityFromAttributes(book, listAuthorIds);
         serviceBook.update(book);
         return "redirect:" + BooksController.BOOK_ROOT_URL + "/" + book.getId();
     }
+
     @RequestMapping(value = MainController.REMOVE_ACTION_URL + "/{id}", method = RequestMethod.GET)
     public String deleteBook(@PathVariable("id") Integer id) {
         BookDTO book = serviceBook.getEntityById(id);
@@ -99,6 +106,7 @@ public class BooksController {
         serviceBook.delete(id);
         return "redirect:" + BooksController.BOOK_ROOT_URL + MainController.SHOW_ALL_ACTION_URL;
     }
+
     private void initAttributes(Map<String, Object> map, BookDTO book) {
         book = book.trim();
         map.put(BOOK_ATTRIBUTE_NAME, book);
@@ -111,11 +119,13 @@ public class BooksController {
         map.put(SOURCE_AUTHORS_LIST_ATTRIBUTE_NAME, serviceAuthor.getAll());
         map.put(SOURCE_GENRES_LIST_ATTRIBUTE_NAME, serviceGenre.getAll());
     }
+
     private BookDTO initEntityFromAttributes(BookDTO book, List<Integer> authorsIdList) {
         book = book.trim();
         book.setAuthorsIdList(authorsIdList == null ? new ArrayList<Integer>() : authorsIdList);
         return book;
     }
+
     private boolean dataIsCorrect(@ModelAttribute(BOOK_ATTRIBUTE_NAME) @Valid BookDTO book, BindingResult result, Map<String, Object> map) {
         if (result.hasErrors()) {
             initAttributes(map, book);

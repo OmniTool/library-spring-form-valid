@@ -9,10 +9,16 @@ import java.util.List;
 public interface Service<D extends BaseDTO, K, B extends EntityBase> {
 
     List<D> getAll();
+
     D getEntityById(K id);
+
     void update(D entity);
+
     void delete(K id);
+
     int create(D entity);
+
     List<D> searchEntityByName(D entity);
+
     ConverterEntityDTO<B, D> getConverterDTO();
 }

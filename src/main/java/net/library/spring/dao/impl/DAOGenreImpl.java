@@ -17,6 +17,7 @@ public class DAOGenreImpl extends DAOBase<Genre> implements DAOGenre {
     public DAOGenreImpl() {
         super(Genre.class);
     }
+
     @Override
     public List<Genre> searchEntityByName(Genre genre) {
         if (genre == null) return new ArrayList<>();

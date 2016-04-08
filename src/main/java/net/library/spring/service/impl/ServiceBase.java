@@ -55,6 +55,7 @@ public class ServiceBase<T extends BaseDTO, D extends DAO, E extends EntityBase>
     protected D getDao() {
         return dao;
     }
+
     public ConverterEntityDTO<E, T> getConverterDTO() {
         return converterDTO;
     }

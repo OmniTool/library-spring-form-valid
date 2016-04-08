@@ -41,6 +41,7 @@ public class AuthorsController {
         map.put(AUTHORS_LIST_ATTRIBUTE_NAME, serviceAuthor.getAll());
         return AUTHORS_LIST_VIEW;
     }
+
     @RequestMapping(value = MainController.SEARCH_ACTION_URL, method = RequestMethod.POST)
     public String findAuthor(@RequestParam(FIRST_NAME_ATTRIBUTE_NAME) String firstName,
                              @RequestParam(MIDDLE_NAME_ATTRIBUTE_NAME) String middleName,
@@ -60,34 +61,39 @@ public class AuthorsController {
         initAttributes(map, author);
         return AUTHOR_ADD_VIEW;
     }
+
     @RequestMapping(value = MainController.ADD_ACTION_URL, method = RequestMethod.POST)
-    public String createAuthor(@RequestParam(value= BOOKS_LIST_ATTRIBUTE_NAME, required=false) List<Integer> listBookIds,
+    public String createAuthor(@RequestParam(value = BOOKS_LIST_ATTRIBUTE_NAME, required = false) List<Integer> listBookIds,
                                @ModelAttribute(AUTHOR_ATTRIBUTE_NAME) @Valid AuthorDTO author,
-                             BindingResult result, Map<String, Object> map) {
+                               BindingResult result, Map<String, Object> map) {
         author = initEntityFromAttributes(author, listBookIds);
         if (!dataIsCorrect(author, result, map)) return AUTHOR_ADD_VIEW;
         serviceAuthor.create(author);
         return "redirect:" + AuthorsController.AUTHOR_ROOT_URL + MainController.SHOW_ALL_ACTION_URL;
     }
+
     @RequestMapping(value = "/{id}")
     public String readAuthor(@PathVariable("id") Integer id, Map<String, Object> map) {
         initAttributes(map, serviceAuthor.getEntityById(id));
         return AUTHOR_INFO_VIEW;
     }
+
     @RequestMapping(value = MainController.EDIT_ACTION_URL + "/{id}", method = RequestMethod.GET)
     public String updateAuthor(@PathVariable("id") Integer id, Map<String, Object> map) {
         initAttributes(map, serviceAuthor.getEntityById(id));
         return AUTHOR_EDIT_VIEW;
     }
+
     @RequestMapping(value = MainController.EDIT_ACTION_URL + "/{id}", method = RequestMethod.POST)
-    public String updateAuthor(@RequestParam(value= BOOKS_LIST_ATTRIBUTE_NAME, required=false) List<Integer> listBookIds,
+    public String updateAuthor(@RequestParam(value = BOOKS_LIST_ATTRIBUTE_NAME, required = false) List<Integer> listBookIds,
                                @ModelAttribute(AUTHOR_ATTRIBUTE_NAME) @Valid AuthorDTO author,
-                            BindingResult result, Map<String, Object> map) {
+                               BindingResult result, Map<String, Object> map) {
         if (!dataIsCorrect(author, result, map)) return AUTHOR_EDIT_VIEW;
         author = initEntityFromAttributes(author, listBookIds);
         serviceAuthor.update(author);
         return "redirect:" + AuthorsController.AUTHOR_ROOT_URL + "/" + author.getId();
     }
+
     @RequestMapping(value = MainController.REMOVE_ACTION_URL + "/{id}", method = RequestMethod.GET)
     public String deleteAuthor(@PathVariable("id") Integer id) {
         AuthorDTO author = serviceAuthor.getEntityById(id);
@@ -96,6 +102,7 @@ public class AuthorsController {
         serviceAuthor.delete(id);
         return "redirect:" + AuthorsController.AUTHOR_ROOT_URL + MainController.SHOW_ALL_ACTION_URL;
     }
+
     private void initAttributes(Map<String, Object> map, AuthorDTO author) {
         author = author.trim();
         map.put(AUTHOR_ATTRIBUTE_NAME, author);
@@ -106,11 +113,13 @@ public class AuthorsController {
         map.put(SELECTED_BOOKS_LIST_ATTRIBUTE_NAME, books);
         map.put(SOURCE_BOOKS_LIST_ATTRIBUTE_NAME, serviceBook.getAll());
     }
+
     private AuthorDTO initEntityFromAttributes(AuthorDTO author, List<Integer> booksIdList) {
         author = author.trim();
         author.setBooksIdList(booksIdList == null ? new ArrayList<Integer>() : booksIdList);
         return author;
     }
+
     private boolean dataIsCorrect(@ModelAttribute(AUTHOR_ATTRIBUTE_NAME) @Valid AuthorDTO author, BindingResult result, Map<String, Object> map) {
         if (result.hasErrors()) {
             initAttributes(map, author);
@@ -123,7 +132,5 @@ public class AuthorsController {
         }
         return true;
     }
-
-
 }
 
