@@ -34,7 +34,7 @@ public class BooksController {
     private static final String SELECTED_AUTHORS_LIST_ATTRIBUTE_NAME = "currentListAuthor";
     private static final String SELECTED_GENRE_ATTRIBUTE_NAME = "currentGenre";
     public static final String AUTHORS_LIST_ATTRIBUTE_NAME = "listAuthor";
-    public static final String GENERE_ID_ATTRIBUTE_NAME = "genereId";
+    public static final String GENRE_ID_ATTRIBUTE_NAME = "genereId";
 
     @Autowired private ServiceBook serviceBook;
     @Autowired private ServiceAuthor serviceAuthor;
@@ -63,7 +63,7 @@ public class BooksController {
     }
 
     @RequestMapping(value = MainController.ADD_ACTION_URL, method = RequestMethod.POST)
-    public String createBook(@RequestParam(GENERE_ID_ATTRIBUTE_NAME) int genereId,
+    public String createBook(@RequestParam(GENRE_ID_ATTRIBUTE_NAME) int genereId,
                              @RequestParam(value = AUTHORS_LIST_ATTRIBUTE_NAME, required = false) List<Integer> listAuthorIds,
                              @ModelAttribute(BOOK_ATTRIBUTE_NAME) @Valid BookDTO book,
                              BindingResult result, Map<String, Object> map) {
@@ -87,7 +87,7 @@ public class BooksController {
     }
 
     @RequestMapping(value = MainController.EDIT_ACTION_URL + "/{id}", method = RequestMethod.POST)
-    public String updateBook(@RequestParam(GENERE_ID_ATTRIBUTE_NAME) int genereId,
+    public String updateBook(@RequestParam(GENRE_ID_ATTRIBUTE_NAME) int genereId,
                              @RequestParam(value = AUTHORS_LIST_ATTRIBUTE_NAME, required = false) List<Integer> listAuthorIds,
                              @ModelAttribute(BOOK_ATTRIBUTE_NAME) @Valid BookDTO book,
                              BindingResult result, Map<String, Object> map) {
